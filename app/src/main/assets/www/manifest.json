@@ -1,7 +1,7 @@
 {
   "name": "Bouge & Pense",
   "short_name": "Bouge&Pense",
-  "description": "Jeux qui mêlent mouvement et réflexion pour aider les enfants à se concentrer.",
+  "description": "Jeux, routines, minuteur et coin calme pour aider les enfants à se concentrer.",
   "lang": "fr",
   "start_url": "./index.html",
   "scope": "./",

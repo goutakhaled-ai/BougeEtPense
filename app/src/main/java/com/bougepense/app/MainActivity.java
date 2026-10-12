@@ -1,17 +1,21 @@
 package com.bougepense.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.JsPromptResult;
+import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import java.util.Locale;
 
 public class MainActivity extends Activity {
@@ -51,6 +55,30 @@ public class MainActivity extends Activity {
                 i.addCategory(Intent.CATEGORY_OPENABLE);
                 i.setType("*/*");
                 startActivityForResult(Intent.createChooser(i, "Choisir la sauvegarde"), PICK_FILE);
+                return true;
+            }
+            @Override
+            public boolean onJsAlert(WebView v, String url, String msg, JsResult r) {
+                new AlertDialog.Builder(MainActivity.this).setMessage(msg)
+                    .setPositiveButton("OK", (d, w) -> r.confirm()).setOnCancelListener(d -> r.cancel()).show();
+                return true;
+            }
+            @Override
+            public boolean onJsConfirm(WebView v, String url, String msg, JsResult r) {
+                new AlertDialog.Builder(MainActivity.this).setMessage(msg)
+                    .setPositiveButton("Oui", (d, w) -> r.confirm())
+                    .setNegativeButton("Non", (d, w) -> r.cancel())
+                    .setOnCancelListener(d -> r.cancel()).show();
+                return true;
+            }
+            @Override
+            public boolean onJsPrompt(WebView v, String url, String msg, String def, JsPromptResult r) {
+                final EditText input = new EditText(MainActivity.this);
+                if (def != null) input.setText(def);
+                new AlertDialog.Builder(MainActivity.this).setMessage(msg).setView(input)
+                    .setPositiveButton("OK", (d, w) -> r.confirm(input.getText().toString()))
+                    .setNegativeButton("Annuler", (d, w) -> r.cancel())
+                    .setOnCancelListener(d -> r.cancel()).show();
                 return true;
             }
         });

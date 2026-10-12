@@ -40,13 +40,14 @@ p{line-height:1.45}
 .btn.rose{background:var(--rose);box-shadow:0 6px 0 #e05f88}
 .btn.jaune{background:var(--jaune);color:var(--texte);box-shadow:0 6px 0 #e0a91c}
 .btn.blanc{background:#fff;color:var(--texte);box-shadow:0 6px 0 #e3dff5}
+.btn.bleu{background:var(--bleu);box-shadow:0 6px 0 #2387de}
 .btn.petit{padding:10px 14px;font-size:.95rem;border-radius:14px;width:auto}
 .row{display:flex;gap:10px;align-items:center}
 .between{justify-content:space-between}
 .mt{margin-top:12px}.mb{margin-bottom:12px}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px}
 .pill{background:#fff;border-radius:999px;padding:8px 14px;font-weight:900;box-shadow:var(--ombre);display:inline-flex;gap:6px;align-items:center}
-.iconbtn{background:#fff;border:none;border-radius:16px;width:46px;height:46px;font-size:1.4rem;box-shadow:var(--ombre);cursor:pointer}
+.iconbtn{background:#fff;border:none;border-radius:16px;width:46px;height:46px;font-size:1.4rem;box-shadow:var(--ombre);cursor:pointer;flex:none}
 .hello{display:flex;gap:12px;align-items:center}
 .avatar{width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#FFD6E5,#D9D2FF);display:flex;align-items:center;justify-content:center;font-size:2.2rem;box-shadow:var(--ombre)}
 .week{display:flex;gap:10px;justify-content:center;margin:10px 0 4px}
@@ -59,8 +60,12 @@ p{line-height:1.45}
 .game-tile small{font-size:.78rem;opacity:.95;font-weight:700}
 .game-tile:active{transform:scale(.97)}
 .lvl{font-size:.75rem;background:rgba(255,255,255,.3);border-radius:999px;padding:2px 8px;font-weight:900}
+.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.tool{border:none;border-radius:20px;background:#fff;box-shadow:var(--ombre);padding:12px 6px;font-family:inherit;color:var(--texte);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.tool .e{font-size:2rem}.tool b{font-size:.88rem;font-weight:900}
+.tool:active{transform:scale(.97)}
 /* Jeu */
-.gamehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.gamehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px}
 .progress{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin:6px 0 12px}
 .progress i{width:12px;height:12px;border-radius:50%;background:#E4E0F7;display:block}
 .progress i.ok{background:var(--vert)}.progress i.ko{background:var(--orange)}.progress i.now{background:var(--violet)}
@@ -72,8 +77,10 @@ p{line-height:1.45}
 .choices{display:grid;gap:12px;width:100%;margin-top:16px}
 .choices.c2{grid-template-columns:1fr 1fr}
 .choices.c3{grid-template-columns:1fr 1fr 1fr}
+.choices.c5{grid-template-columns:repeat(5,1fr);gap:6px}
 .choice{border:none;border-radius:20px;padding:14px 6px;font-family:inherit;font-weight:900;font-size:1rem;background:#F4F2FF;color:var(--texte);box-shadow:0 5px 0 #DDD7FA;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
 .choice .e{font-size:2.2rem}
+.choice small{font-size:.72rem;font-weight:800}
 .choice:active{transform:translateY(3px);box-shadow:0 2px 0 #DDD7FA}
 .choice.flash{background:#D7F8E3}
 .signal{width:min(70vw,260px);height:min(70vw,260px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.6rem;transition:background .15s;cursor:pointer;box-shadow:inset 0 -10px 0 rgba(0,0,0,.12)}
@@ -101,7 +108,36 @@ p{line-height:1.45}
 .garden span{font-size:2.1rem;text-align:center;animation:grow .5s ease}
 @keyframes grow{from{transform:scale(0)}to{transform:scale(1)}}
 .bar{height:16px;background:#EEEAFE;border-radius:999px;overflow:hidden}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--vert),#7BE495);border-radius:999px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--vert),#7BE495);border-radius:999px;transition:width .4s}
+/* Routines */
+.rcard{display:flex;align-items:center;gap:12px;width:100%;border:none;background:#fff;border-radius:22px;padding:14px;box-shadow:var(--ombre);margin-bottom:12px;font-family:inherit;color:var(--texte);text-align:left;cursor:pointer}
+.rcard .e{font-size:2.6rem;width:58px;height:58px;border-radius:18px;background:#F4F2FF;display:flex;align-items:center;justify-content:center;flex:none}
+.rcard .info{flex:1}.rcard b{font-size:1.1rem;font-weight:900;display:block}
+.rcard small{color:var(--gris);font-weight:700}
+.rcard .done{font-size:1.6rem}
+.steplist{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+.steplist span{width:38px;height:38px;border-radius:12px;background:#F1EEFF;display:flex;align-items:center;justify-content:center;font-size:1.3rem;opacity:.45}
+.steplist span.ok{background:#E3FBEA;opacity:1}
+.steplist span.now{background:#fff;border:3px solid var(--violet);opacity:1;transform:scale(1.12)}
+.steplist span.skip{opacity:.3;filter:grayscale(1)}
+/* Minuteur visuel */
+.tt{position:relative;width:min(64vw,240px);height:min(64vw,240px);margin:6px auto}
+.tt-disc{position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--tcol,#FF5A5F) calc(var(--p,1)*360deg),#F1EEFF 0);box-shadow:inset 0 -8px 0 rgba(0,0,0,.06),0 6px 0 rgba(45,42,74,.1)}
+.tt-face{position:absolute;inset:18%;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.tt-time{font-size:2.3rem;font-weight:900;font-variant-numeric:tabular-nums}
+.tt-lbl{font-size:.8rem;font-weight:800;color:var(--gris)}
+.tt.small{width:150px;height:150px}.tt.small .tt-time{font-size:1.6rem}
+.presets{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.presets button{border:none;border-radius:14px;padding:10px 0;font-family:inherit;font-weight:900;font-size:1rem;background:#F4F2FF;color:var(--texte);box-shadow:0 4px 0 #DDD7FA;cursor:pointer}
+.presets button.sel{background:var(--violet);color:#fff;box-shadow:0 4px 0 var(--violet-d)}
+.tt-ring{animation:ring .5s ease 4}
+@keyframes ring{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+/* Coin calme */
+.calm-stage{background:linear-gradient(160deg,#E9F6FF,#F3EEFF);min-height:58vh}
+.breath{width:220px;height:220px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:4.5rem;
+  background:radial-gradient(circle at 35% 30%,#FFFFFF,#B9E4FF 55%,#8EC9FF);box-shadow:0 0 0 14px rgba(142,201,255,.25),0 0 60px rgba(108,92,231,.25);transform:scale(.55);transition-property:transform;transition-timing-function:ease-in-out}
+.breath.bougie{background:radial-gradient(circle at 35% 30%,#FFFFFF,#FFE7B0 55%,#FFC93C);box-shadow:0 0 0 14px rgba(255,201,60,.25),0 0 60px rgba(255,159,67,.3)}
+.weather .choice{padding:10px 2px}
 /* Parent */
 .stat{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .stat div{background:#F7F5FF;border-radius:16px;padding:10px;text-align:center}
@@ -112,7 +148,7 @@ p{line-height:1.45}
 .gline .e{font-size:1.8rem}
 .gline .info{flex:1}
 .gline small{color:var(--gris);font-weight:700}
-input[type=text],input[type=number],textarea{width:100%;font-family:inherit;font-size:1.1rem;padding:12px 14px;border-radius:14px;border:2px solid #E4E0F7;background:#fff;color:var(--texte);font-weight:700}
+input[type=text],input[type=number],textarea,select{width:100%;font-family:inherit;font-size:1.1rem;padding:12px 14px;border-radius:14px;border:2px solid #E4E0F7;background:#fff;color:var(--texte);font-weight:700}
 textarea{font-size:.92rem;min-height:150px;font-weight:600}
 .avatars{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
 .avatars button{font-size:2rem;width:58px;height:58px;border-radius:50%;border:3px solid transparent;background:#F4F2FF;cursor:pointer}
@@ -121,6 +157,15 @@ textarea{font-size:.92rem;min-height:150px;font-weight:600}
 .switch input{width:24px;height:24px;accent-color:var(--violet)}
 .note{font-size:.82rem;color:var(--gris);text-align:center;margin-top:10px}
 .tip{background:#FFF6D8;border-radius:16px;padding:12px;font-weight:700}
+/* Éditeur */
+.estep{display:grid;grid-template-columns:62px 1fr 64px;gap:6px;align-items:center;padding:8px 0;border-bottom:1px dashed #E4E0F7}
+.estep select{padding:8px 2px;font-size:1.5rem;text-align:center}
+.estep input{padding:9px 8px;font-size:.95rem}
+.estep .acts{grid-column:1/-1;display:flex;gap:6px;justify-content:flex-end}
+.estep .acts button{border:none;background:#F4F2FF;border-radius:10px;padding:6px 10px;font-size:1rem;cursor:pointer}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px}
+.tabs button{flex:none;border:none;border-radius:999px;padding:8px 12px;font-family:inherit;font-weight:900;background:#fff;color:var(--texte);box-shadow:var(--ombre);cursor:pointer}
+.tabs button.sel{background:var(--violet);color:#fff}
 </style>
 </head>
 <body>
@@ -151,6 +196,12 @@ textarea{font-size:.92rem;min-height:150px;font-weight:600}
       <span class="pill">⭐ <span id="h-stars">0</span></span>
       <button class="iconbtn" id="h-parent" aria-label="Espace parents">👪</button>
     </div>
+  </div>
+
+  <div class="tools">
+    <button class="tool" id="h-routines"><span class="e">📋</span><b>Mes routines</b></button>
+    <button class="tool" id="h-timer"><span class="e">⏳</span><b>Minuteur</b></button>
+    <button class="tool" id="h-calm"><span class="e">🫧</span><b>Coin calme</b></button>
   </div>
 
   <div class="card" style="text-align:center">
@@ -189,6 +240,48 @@ textarea{font-size:.92rem;min-height:150px;font-weight:600}
   </div>
 </section>
 
+<!-- LISTE DES ROUTINES -->
+<section class="screen" id="s-routines">
+  <div class="top"><button class="iconbtn" data-home>🏠</button><h2 style="margin:0">Mes routines</h2><span class="pill">⭐ <span class="starcount">0</span></span></div>
+  <div id="rl-list"></div>
+  <p class="note">Chaque routine terminée aujourd'hui = 1 ⭐ pour ton jardin !</p>
+</section>
+
+<!-- ROUTINE EN COURS -->
+<section class="screen" id="s-routine">
+  <div class="gamehead">
+    <button class="iconbtn" id="ro-quit" aria-label="Quitter">✖️</button>
+    <div class="pill" id="ro-title">Routine</div>
+    <button class="iconbtn" id="ro-voice" aria-label="Répéter">🔊</button>
+  </div>
+  <div class="steplist" id="ro-steps"></div>
+  <div class="stage" id="ro-stage"></div>
+</section>
+
+<!-- MINUTEUR -->
+<section class="screen" id="s-timer">
+  <div class="top"><button class="iconbtn" data-home>🏠</button><h2 style="margin:0">Mon minuteur</h2><span style="width:46px"></span></div>
+  <div class="card" style="text-align:center">
+    <div id="ti-box"></div>
+    <div class="presets" id="ti-presets"></div>
+    <div class="row">
+      <button class="btn vert" id="ti-start">▶️ Démarrer</button>
+      <button class="btn blanc" id="ti-reset" style="width:90px;flex:none">🔄</button>
+    </div>
+    <p class="muted mt" style="font-weight:700">La partie rouge diminue : quand elle disparaît, c'est fini !</p>
+  </div>
+</section>
+
+<!-- COIN CALME -->
+<section class="screen" id="s-calm">
+  <div class="gamehead">
+    <button class="iconbtn" id="ca-quit" aria-label="Quitter">✖️</button>
+    <div class="pill">🫧 Coin calme</div>
+    <button class="iconbtn" id="ca-voice" aria-label="Répéter">🔊</button>
+  </div>
+  <div class="stage calm-stage" id="ca-stage"></div>
+</section>
+
 <!-- JARDIN -->
 <section class="screen" id="s-garden">
   <div class="top">
@@ -200,13 +293,13 @@ textarea{font-size:.92rem;min-height:150px;font-weight:600}
   <div class="card mt">
     <h3 id="ga-next">Prochaine plante</h3>
     <div class="bar"><i id="ga-bar" style="width:0"></i></div>
-    <p class="muted mt" style="font-weight:700">Chaque fois que tu joues, ton jardin grandit. Tous les 3 ⭐, une nouvelle plante pousse !</p>
+    <p class="muted mt" style="font-weight:700">Chaque fois que tu joues ou que tu finis une routine, ton jardin grandit. Tous les 3 ⭐, une nouvelle plante pousse !</p>
   </div>
 </section>
 
 <!-- PORTE PARENTS -->
 <section class="screen" id="s-gate">
-  <div class="top"><button class="iconbtn" data-home>🏠</button><h2 style="margin:0">Espace parents</h2><span></span></div>
+  <div class="top"><button class="iconbtn" data-home>🏠</button><h2 style="margin:0">Espace parents</h2><span style="width:46px"></span></div>
   <div class="card" style="text-align:center">
     <div class="big">🔒</div>
     <p class="mt" style="font-weight:800">Pour entrer, réponds à ce calcul :</p>
@@ -219,20 +312,31 @@ textarea{font-size:.92rem;min-height:150px;font-weight:600}
 
 <!-- PARENTS -->
 <section class="screen" id="s-parent">
-  <div class="top"><button class="iconbtn" data-home>🏠</button><h2 style="margin:0">Espace parents</h2><span></span></div>
+  <div class="top"><button class="iconbtn" data-home>🏠</button><h2 style="margin:0">Espace parents</h2><span style="width:46px"></span></div>
 
   <div class="card">
     <h3>Cette semaine</h3>
     <div class="stat">
-      <div><b id="p-sess">0/3</b><small>séances</small></div>
-      <div><b id="p-min">0</b><small>minutes</small></div>
-      <div><b id="p-acc">–</b><small>réussite</small></div>
+      <div><b id="p-sess">0/3</b><small>séances de jeux</small></div>
+      <div><b id="p-rcount">0</b><small>routines finies</small></div>
+      <div><b id="p-ccount">0</b><small>coin calme</small></div>
+    </div>
+    <div class="stat mt">
+      <div><b id="p-min">0</b><small>minutes de jeux</small></div>
+      <div><b id="p-acc">–</b><small>réussite jeux</small></div>
+      <div><b id="p-mood">–</b><small>humeur après calme</small></div>
     </div>
   </div>
 
   <div class="card">
     <h3>💡 Conseil du jour</h3>
     <div class="tip" id="p-tip"></div>
+  </div>
+
+  <div class="card">
+    <h3>Routines</h3>
+    <div id="p-routines"></div>
+    <button class="btn mt" id="p-redit">✏️ Modifier les routines</button>
   </div>
 
   <div class="card">
@@ -255,7 +359,7 @@ textarea{font-size:.92rem;min-height:150px;font-weight:600}
     <div class="row mt">
       <button class="btn blanc petit" id="p-export">⬇️ Sauvegarder</button>
       <button class="btn blanc petit" id="p-import">⬆️ Restaurer</button>
-      <input type="file" id="p-file" accept=".json,application/json" hidden>
+      <input type="file" id="p-file" accept=".json,application/json,text/plain" hidden>
     </div>
     <button class="btn rose mt" id="p-reset">🗑️ Tout effacer</button>
   </div>
@@ -263,17 +367,30 @@ textarea{font-size:.92rem;min-height:150px;font-weight:600}
   <p class="note">Bouge & Pense est une application ludique de soutien à l'attention et aux routines. Elle ne remplace pas un diagnostic ni un suivi médical ou paramédical. Les données restent uniquement sur cet appareil.</p>
 </section>
 
+<!-- ÉDITEUR DE ROUTINES -->
+<section class="screen" id="s-redit">
+  <div class="top"><button class="iconbtn" id="re-back">⬅️</button><h2 style="margin:0">Modifier les routines</h2><span style="width:46px"></span></div>
+  <div class="tabs" id="re-tabs"></div>
+  <div class="card" id="re-card"></div>
+  <button class="btn bleu" id="re-new">➕ Nouvelle routine / grande tâche</button>
+  <button class="btn blanc mt" id="re-defaults">↩️ Remettre les routines de départ</button>
+  <p class="note">Astuce : pour une grande tâche (ranger sa chambre, un exposé…), créez une routine et découpez-la en petites étapes de quelques minutes.</p>
+</section>
+
 </div>
 
 <script>
 /* =========================================================
-   Bouge & Pense – V1
-   Jeux mêlant mouvement + réflexion, récompenses, espace parents
+   Bouge & Pense – V2
+   V1 : jeux mouvement + réflexion, récompenses, espace parents
+   V2 : routines visuelles, minuteur visuel, coin calme, éditeur
    ========================================================= */
 const $ = s => document.querySelector(s);
 const STORE = 'bougepense_v1';
 const AVATARS = ['🦊','🐼','🐯','🦁','🐸','🐵','🦄','🐻','🐰','🐨','🐧','🦖'];
 const PLANTS = ['🌷','🌻','🌼','🌹','🌸','🌵','🍄','🌳','🌺','🍓','🌴','🪻'];
+const STEP_EMOJIS = ['🛏️','🚽','🧼','🥣','🪥','👕','🧦','👟','🧥','🎒','📒','✏️','📖','🧮','🎨','⏸️','🤸','🧃','🍎','🛁','🧸','🧹','🍽️','💊','📺','🎮','📞','😴','🌙','🌅','🐶','🪴','🎵','⚽','🚗','❤️','⭐','✅'];
+const ROUTINE_EMOJIS = ['🌅','📚','🌙','🧹','🎒','🏫','⚽','🛁','🎨','🎂','🚗','⭐'];
 
 const GAMES = [
   {id:'feu',    name:'Feu Rouge, Feu Vert', e:'🚦', color:'#FF5A5F', skill:'Contrôle de soi', desc:'Bouge… et STOP !'},
@@ -283,33 +400,59 @@ const GAMES = [
   {id:'couleur',name:'Couleurs magiques',   e:'🎨', color:'#FF9F43', skill:'Flexibilité', desc:'Couleur = mouvement'}
 ];
 
+const DEFAULT_ROUTINES = () => ([
+  {id:'matin', name:'Ma routine du matin', e:'🌅', steps:[
+    {e:'🛏️',t:'Je me lève',m:0},{e:'🚽',t:'Je vais aux toilettes',m:0},{e:'🥣',t:'Je prends mon petit-déjeuner',m:0},
+    {e:'🪥',t:'Je me brosse les dents',m:2},{e:'👕',t:'Je m\'habille',m:0},{e:'🎒',t:'Je prends mon cartable',m:0}]},
+  {id:'devoirs', name:'Mes devoirs', e:'📚', steps:[
+    {e:'🤸',t:'Je bouge pour réveiller mon cerveau',m:2},{e:'🧃',t:'Je prends un petit goûter',m:0},{e:'📒',t:'Je regarde mon cahier de textes',m:0},
+    {e:'✏️',t:'Premier exercice',m:10},{e:'⏸️',t:'Pause : je m\'étire et je bois de l\'eau',m:2},{e:'✏️',t:'Deuxième exercice',m:10},{e:'🎒',t:'Je range mon cartable',m:0}]},
+  {id:'soir', name:'Ma routine du soir', e:'🌙', steps:[
+    {e:'🛁',t:'Douche ou bain',m:0},{e:'🧸',t:'Je range mes jouets',m:5},{e:'🎒',t:'Je prépare mon cartable pour demain',m:0},
+    {e:'🪥',t:'Je me brosse les dents',m:2},{e:'📖',t:'Une histoire',m:0},{e:'😴',t:'Au lit !',m:0}]}
+]);
+
+const WEATHER = [{e:'⛈️',t:'Orage',v:1},{e:'🌧️',t:'Pluie',v:2},{e:'☁️',t:'Nuage',v:3},{e:'🌤️',t:'Éclaircie',v:4},{e:'☀️',t:'Soleil',v:5}];
+
 const TIPS = [
   "Donnez une seule consigne à la fois, en regardant votre enfant dans les yeux.",
   "Félicitez l'effort tout de suite (« Tu t'es bien concentré ! »), pas seulement la réussite.",
   "Une petite séance de 10 minutes vaut mieux qu'une longue séance qui finit dans la frustration.",
   "Avant les devoirs, 5 minutes de mouvement peuvent aider à mieux se concentrer ensuite.",
-  "Découpez les grosses tâches en petites étapes visibles (une liste avec des cases à cocher).",
+  "Découpez les grosses tâches en petites étapes visibles : utilisez l'éditeur de routines.",
   "Gardez des horaires réguliers pour le coucher : le sommeil influence beaucoup l'attention.",
   "Jouez parfois avec votre enfant : faire « Le Chef dit » à deux est encore plus motivant.",
-  "Si votre enfant est fatigué ou énervé, mieux vaut reporter la séance : le plaisir doit rester.",
+  "Si votre enfant est fatigué ou énervé, proposez d'abord le coin calme, puis le jeu.",
   "Partagez le résumé de la semaine avec l'enseignant pour aligner les encouragements.",
-  "Limitez les distractions pendant les jeux : télé éteinte, pièce calme, espace pour bouger."
+  "Le minuteur visuel aide à « voir » le temps : utilisez-le pour les devoirs ou les écrans.",
+  "Dans une routine, gardez 5 à 7 étapes maximum : au-delà, créez une deuxième routine.",
+  "Après une crise, attendez le retour au calme avant d'en parler, puis cherchez ensemble une solution."
 ];
 
 /* ---------- Données ---------- */
 function defaultState(){
   return {name:'', avatar:'🦊', stars:0, levels:{feu:1,chef:1,memo:1,chasse:1,couleur:1},
-    history:[], sessions:[], settings:{voice:true, sound:true}, created:Date.now()};
+    history:[], sessions:[], routines:DEFAULT_ROUTINES(), routineLog:[], calmLog:[],
+    settings:{voice:true, sound:true}, created:Date.now()};
 }
 let S = load();
 function load(){
-  try{ const d = JSON.parse(localStorage.getItem(STORE)); if(d && d.levels) return Object.assign(defaultState(), d); }catch(e){}
+  try{ const d = JSON.parse(localStorage.getItem(STORE)); if(d && d.levels) return migrate(d); }catch(e){}
   return defaultState();
+}
+function migrate(d){
+  const s = Object.assign(defaultState(), d);
+  if(!Array.isArray(s.routines) || !s.routines.length) s.routines = DEFAULT_ROUTINES();
+  s.routineLog = s.routineLog || []; s.calmLog = s.calmLog || [];
+  s.settings = Object.assign({voice:true,sound:true}, s.settings||{});
+  return s;
 }
 function save(){ localStorage.setItem(STORE, JSON.stringify(S)); }
 
 function weekStart(d=new Date()){ const x=new Date(d); const day=(x.getDay()+6)%7; x.setHours(0,0,0,0); x.setDate(x.getDate()-day); return x.getTime(); }
-function thisWeek(arr){ const w=weekStart(); return arr.filter(h=>h.t>=w); }
+function dayStart(d=new Date()){ const x=new Date(d); x.setHours(0,0,0,0); return x.getTime(); }
+function thisWeek(arr){ const w=weekStart(); return (arr||[]).filter(h=>h.t>=w); }
+function addStars(n){ S.stars+=n; save(); document.querySelectorAll('.starcount').forEach(e=>e.textContent=S.stars); }
 
 /* ---------- Voix et sons ---------- */
 let frVoice = null;
@@ -322,25 +465,28 @@ function speak(txt, force){
   const clean = txt.replace(/[^\p{L}\p{N}\s',!?:.-]/gu,'');
   if(window.AndroidApp && AndroidApp.canSpeak()){ try{ AndroidApp.speak(clean); }catch(e){} return; }
   if(!('speechSynthesis' in window)) return;
-  try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(txt.replace(/[^\p{L}\p{N}\s',!?:.-]/gu,'')); u.lang='fr-FR'; if(frVoice) u.voice=frVoice; u.rate=0.95; u.pitch=1.1; speechSynthesis.speak(u);}catch(e){}
+  try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(clean); u.lang='fr-FR'; if(frVoice) u.voice=frVoice; u.rate=0.95; u.pitch=1.1; speechSynthesis.speak(u);}catch(e){}
 }
+function stopVoice(){ if(window.AndroidApp){ try{AndroidApp.stop();}catch(e){} } if('speechSynthesis' in window) speechSynthesis.cancel(); }
 let AC=null;
 function beep(type){
   if(!S.settings.sound) return;
   try{
     AC = AC || new (window.AudioContext||window.webkitAudioContext)();
-    const notes = type==='ok' ? [660,880] : type==='ko' ? [300,220] : type==='win' ? [523,659,784,1046] : [520];
+    const notes = type==='ok' ? [660,880] : type==='ko' ? [300,220] : type==='win' ? [523,659,784,1046] : type==='alarm' ? [880,660,880,660,880,1046] : type==='soft' ? [440] : [520];
     notes.forEach((f,i)=>{ const o=AC.createOscillator(), g=AC.createGain(); o.type='sine'; o.frequency.value=f;
-      const t=AC.currentTime+i*0.11; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.25,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.18);
-      o.connect(g).connect(AC.destination); o.start(t); o.stop(t+0.2); });
+      const t=AC.currentTime+i*(type==='alarm'?0.2:0.11); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(type==='soft'?0.08:0.25,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+(type==='alarm'?0.3:0.18));
+      o.connect(g).connect(AC.destination); o.start(t); o.stop(t+0.35); });
   }catch(e){}
 }
 
 /* ---------- Navigation ---------- */
-function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $('#'+id).classList.add('active'); window.scrollTo(0,0); }
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $('#'+id).classList.add('active'); window.scrollTo(0,0);
+  document.querySelectorAll('.starcount').forEach(e=>e.textContent=S.stars); }
+function current_screen(){ const s=document.querySelector('.screen.active'); return s?s.id:''; }
 document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>goHome());
 
-/* ---------- Minuteurs (nettoyés quand on quitte un jeu) ---------- */
+/* ---------- Minuteurs (nettoyés quand on quitte un écran) ---------- */
 let timers=[];
 const later=(fn,ms)=>{ const id=setTimeout(fn,ms); timers.push(id); return id; };
 const every=(fn,ms)=>{ const id=setInterval(fn,ms); timers.push(id); return id; };
@@ -348,6 +494,8 @@ function clearTimers(){ timers.forEach(id=>{clearTimeout(id);clearInterval(id);}
 const rnd=n=>Math.floor(Math.random()*n);
 const pick=a=>a[rnd(a.length)];
 const shuffle=a=>{a=[...a]; for(let i=a.length-1;i>0;i--){const j=rnd(i+1); [a[i],a[j]]=[a[j],a[i]];} return a;};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=s=>{ s=Math.max(0,Math.ceil(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); };
 
 /* ---------- Inscription ---------- */
 let obAvatar = S.avatar;
@@ -363,7 +511,7 @@ $('#ob-go').onclick=()=>{
 
 /* ---------- Maison ---------- */
 function goHome(){
-  clearTimers(); session=null;
+  clearTimers(); session=null; stopVoice();
   if(!S.name){ renderOnboard(); show('s-onboard'); return; }
   $('#h-avatar').textContent=S.avatar; $('#h-name').textContent=S.name; $('#h-stars').textContent=S.stars;
   const n=Math.min(3,thisWeek(S.sessions).length);
@@ -379,11 +527,13 @@ function goHome(){
 $('#h-session').onclick=()=>startSession();
 $('#h-garden').onclick=()=>showGarden();
 $('#h-parent').onclick=()=>showGate();
+$('#h-routines').onclick=()=>showRoutines();
+$('#h-timer').onclick=()=>showTimer();
+$('#h-calm').onclick=()=>startCalm();
 
 /* ---------- Séances ---------- */
-let session=null; // {queue:[], idx, start, results:[]}
+let session=null;
 function startSession(){
-  // 3 jeux variés : on privilégie ceux joués le moins récemment
   const lastPlayed = id => { const h=[...S.history].reverse().find(x=>x.g===id); return h?h.t:0; };
   const order = shuffle(GAMES).sort((a,b)=>lastPlayed(a.id)-lastPlayed(b.id)).slice(0,3).map(g=>g.id);
   session={queue:shuffle(order), idx:0, start:Date.now(), results:[]};
@@ -392,7 +542,7 @@ function startSession(){
 function startSingle(id){ session=null; launch(id); }
 
 /* ---------- Moteur de jeu ---------- */
-let current=null; // {id, start}
+let current=null;
 function launch(id){
   clearTimers();
   const g=GAMES.find(x=>x.id===id);
@@ -402,10 +552,7 @@ function launch(id){
   show('s-game');
   RUN[id](S.levels[id], res=>finishGame(id,res));
 }
-function stopVoice(){ if(window.AndroidApp){ try{AndroidApp.stop();}catch(e){} } if('speechSynthesis' in window) speechSynthesis.cancel(); }
-$('#g-quit').onclick=()=>{ clearTimers(); stopVoice(); goHome(); };
-// Bouton Retour Android : revient à l'accueil, ou quitte depuis l'accueil
-window.androidBack=()=>{ if($('#s-home').classList.contains('active')||$('#s-onboard').classList.contains('active')) return 'exit'; clearTimers(); stopVoice(); goHome(); return 'stay'; };
+$('#g-quit').onclick=()=>goHome();
 $('#g-voice').onclick=()=>{ if(lastSpoken) speak(lastSpoken,true); };
 
 function stage(html){ $('#g-stage').innerHTML = html + '<div class="feedback" id="fb"></div>'; }
@@ -418,7 +565,6 @@ function feedback(ok){
   f.classList.remove('show'); void f.offsetWidth; f.classList.add('show');
   beep(ok?'ok':'ko');
 }
-// Écran d'intro commun : règle + bouton "Je suis prêt"
 function intro(emoji, title, text, extraHtml, onStart){
   stage(`<div class="big">${emoji}</div><div class="say">${title}</div><p class="sub">${text}</p>${extraHtml||''}
     <button class="btn vert mt" id="go" style="max-width:320px">Je suis prêt ! ✅</button>`);
@@ -429,7 +575,6 @@ function countdown(cb){
   let n=3; stage(`<div class="countdown" id="cd">3</div><p class="sub">Prépare-toi…</p>`); speak('3');
   every(()=>{ n--; if(n>0){ $('#cd').textContent=n; speak(String(n)); beep('tick'); } else { clearTimers(); speak('Partez !'); cb(); } },900);
 }
-// Petit moment "fais le mouvement" avec compte à rebours
 function doMove(emoji, txt, secs, next){
   let n=secs;
   stage(`<div class="big">${emoji}</div><div class="say">${txt}</div><div class="countdown" id="mv">${n}</div><p class="sub">Fais-le pour de vrai !</p>`);
@@ -437,11 +582,11 @@ function doMove(emoji, txt, secs, next){
   const id=every(()=>{ n--; const el=$('#mv'); if(el) el.textContent=n; if(n<=0){ clearInterval(id); next(); } },1000);
 }
 
-/* ====== JEU 1 : Feu Rouge, Feu Vert (go / no-go) ====== */
+/* ====== JEU 1 : Feu Rouge, Feu Vert ====== */
 function gameFeu(level, done){
   const total = 8;
-  const window_ = [2600,2200,1800,1500,1200][level-1];   // temps pour taper STOP
-  const decoy = level>=3;                                  // feu orange piège
+  const window_ = [2600,2200,1800,1500,1200][level-1];
+  const decoy = level>=3;
   let results=[], i=0, state='idle', falseTaps=0;
   intro('🚦','Feu Rouge, Feu Vert',
     'Quand c\'est VERT, marche sur place. Quand c\'est ROUGE, fais la statue et touche vite le rond !'+(decoy?' Attention : ORANGE, on ne touche pas !':''),
@@ -473,7 +618,7 @@ function gameFeu(level, done){
   function bar(ms){ const b=$('#tb'); b.style.transition='none'; b.style.width='100%'; void b.offsetWidth; b.style.transition=`width ${ms}ms linear`; b.style.width='0'; }
 }
 
-/* ====== JEU 2 : Le Chef dit (écoute + inhibition) ====== */
+/* ====== JEU 2 : Le Chef dit ====== */
 function gameChef(level, done){
   const ACTIONS=[
     {t:'saute 3 fois',e:'🦘'},{t:'touche tes pieds',e:'🦶'},{t:'lève les bras',e:'🙌'},{t:'tape 4 fois dans tes mains',e:'👏'},
@@ -509,7 +654,7 @@ function gameChef(level, done){
   }
 }
 
-/* ====== JEU 3 : Mémoire des gestes (mémoire de travail) ====== */
+/* ====== JEU 3 : Mémoire des gestes ====== */
 function gameMemo(level, done){
   const MOVES=[{e:'👏',t:'Taper des mains'},{e:'🦘',t:'Sauter'},{e:'🙌',t:'Bras en l\'air'},{e:'🦶',t:'Taper du pied'},{e:'🔄',t:'Tourner'},{e:'🐸',t:'S\'accroupir'}];
   const pool = MOVES.slice(0, Math.min(6, 3+level));
@@ -553,7 +698,7 @@ function gameMemo(level, done){
   }
 }
 
-/* ====== JEU 4 : Chasse aux animaux (attention sélective) ====== */
+/* ====== JEU 4 : Chasse aux animaux ====== */
 function gameChasse(level, done){
   const ANIMALS=['🐶','🐱','🐰','🐸','🐵','🐘','🦁','🐷','🐮','🐔','🦒','🐢','🐟','🦋'];
   const OTHERS=['🍎','🚗','⚽','🎈','🍌','🏠','✏️','🧸','🍕','⏰','🎸','🌂','🧦','🍩'];
@@ -574,7 +719,7 @@ function gameChasse(level, done){
   }
 }
 
-/* ====== JEU 5 : Couleurs magiques (flexibilité / Stroop) ====== */
+/* ====== JEU 5 : Couleurs magiques ====== */
 function gameCouleur(level, done){
   const COLS=[{n:'ROUGE',c:'#FF5A5F',m:'Saute',e:'🦘'},{n:'BLEU',c:'#3BA7FF',m:'Lève les bras',e:'🙌'},{n:'VERT',c:'#2ECC71',m:'Accroupis-toi',e:'🐸'},{n:'JAUNE',c:'#F5B800',m:'Tape dans tes mains',e:'👏'}];
   const cols = COLS.slice(0, level===1?3:4);
@@ -604,11 +749,11 @@ function gameCouleur(level, done){
 
 const RUN={feu:gameFeu, chef:gameChef, memo:gameMemo, chasse:gameChasse, couleur:gameCouleur};
 
-/* ---------- Fin de jeu : étoiles + niveau adaptatif ---------- */
+/* ---------- Fin de jeu ---------- */
 function finishGame(id,res){
   clearTimers();
   const acc = res.total ? res.ok/res.total : 0;
-  const stars = acc>=0.9?3 : acc>=0.65?2 : 1;           // toujours au moins 1 étoile : on récompense l'effort
+  const stars = acc>=0.9?3 : acc>=0.65?2 : 1;
   const oldLvl=S.levels[id]; let lvl=oldLvl;
   if(acc>=0.8) lvl=Math.min(5,lvl+1); else if(acc<0.5) lvl=Math.max(1,lvl-1);
   S.levels[id]=lvl; S.stars+=stars;
@@ -617,7 +762,6 @@ function finishGame(id,res){
   if(S.history.length>500) S.history=S.history.slice(-500);
   if(session) session.results.push({id,stars});
   save();
-
   $('#r-emoji').textContent = stars===3?'🏆':stars===2?'🎉':'💪';
   $('#r-title').textContent = stars===3?`Incroyable, ${S.name} !`:stars===2?`Bravo, ${S.name} !`:`Bel effort, ${S.name} !`;
   $('#r-stars').innerHTML = [1,2,3].map(n=>`<span class="${n<=stars?'':'off'}">⭐</span>`).join('');
@@ -648,8 +792,186 @@ function confetti(n){
     document.body.appendChild(s); setTimeout(()=>s.remove(),4500); }
 }
 
+/* =========================================================
+   V2 – MINUTEUR VISUEL (réutilisable)
+   ========================================================= */
+function makeTimer(box, seconds, opts={}){
+  const T={total:seconds, remaining:seconds, running:false, endAt:0, tick:null, done:false};
+  box.innerHTML=`<div class="tt ${opts.small?'small':''}"><div class="tt-disc"></div><div class="tt-face"><div class="tt-time">${fmt(seconds)}</div><div class="tt-lbl">${opts.label||''}</div></div></div>`;
+  const tt=box.querySelector('.tt'), disc=box.querySelector('.tt-disc'), time=box.querySelector('.tt-time');
+  function paint(){ const p=T.total?T.remaining/T.total:0; disc.style.setProperty('--p',p);
+    disc.style.setProperty('--tcol', p>0.5?'#FF5A5F':p>0.2?'#FF9F43':'#FFC93C'); time.textContent=fmt(T.remaining); }
+  function loop(){ T.remaining=Math.max(0,(T.endAt-Date.now())/1000); paint();
+    if(T.remaining<=0){ T.pause(); T.done=true; tt.classList.add('tt-ring'); beep('alarm'); if(opts.onEnd) opts.onEnd(); } }
+  T.start=()=>{ if(T.running||T.remaining<=0) return; T.running=true; T.endAt=Date.now()+T.remaining*1000; T.tick=every(loop,250); if(opts.onState) opts.onState(true); };
+  T.pause=()=>{ if(!T.running) return; T.running=false; clearInterval(T.tick); if(opts.onState) opts.onState(false); };
+  T.toggle=()=>T.running?T.pause():T.start();
+  T.reset=(s)=>{ T.pause(); if(s!=null) T.total=s; T.remaining=T.total; T.done=false; tt.classList.remove('tt-ring'); paint(); };
+  paint(); return T;
+}
+
+let mainTimer=null, timerChoice=300;
+function showTimer(){
+  clearTimers(); stopVoice();
+  const P=[1,2,3,5,10,15,20,30];
+  $('#ti-presets').innerHTML=P.map(m=>`<button data-m="${m}" class="${m*60===timerChoice?'sel':''}">${m} min</button>`).join('');
+  mainTimer=makeTimer($('#ti-box'), timerChoice, {label:'restant',
+    onState:r=>{ $('#ti-start').textContent=r?'⏸️ Pause':'▶️ Démarrer'; },
+    onEnd:()=>{ speak('Le temps est terminé ! Bravo !'); confetti(15); $('#ti-start').textContent='▶️ Démarrer'; }});
+  $('#ti-presets').querySelectorAll('button').forEach(b=>b.onclick=()=>{ timerChoice=+b.dataset.m*60; $('#ti-presets .sel')?.classList.remove('sel'); b.classList.add('sel'); mainTimer.reset(timerChoice); });
+  show('s-timer');
+}
+$('#ti-start').onclick=()=>{ if(mainTimer.done) mainTimer.reset(); mainTimer.toggle(); if(mainTimer.running) speak('C\'est parti !'); };
+$('#ti-reset').onclick=()=>mainTimer.reset();
+
+/* =========================================================
+   V2 – ROUTINES VISUELLES
+   ========================================================= */
+function doneToday(rid){ const d=dayStart(); return S.routineLog.some(l=>l.id===rid && l.t>=d && l.full); }
+function showRoutines(){
+  clearTimers(); stopVoice();
+  $('#rl-list').innerHTML = S.routines.map((r,i)=>`<button class="rcard" data-i="${i}"><span class="e">${r.e}</span>
+     <span class="info"><b>${esc(r.name)}</b><small>${r.steps.length} étape${r.steps.length>1?'s':''} · ${r.steps.map(s=>s.e).join(' ')}</small></span>
+     <span class="done">${doneToday(r.id)?'✅':'▶️'}</span></button>`).join('')
+     || '<div class="card">Aucune routine. Demande à un parent d\'en créer une 🙂</div>';
+  $('#rl-list').querySelectorAll('.rcard').forEach(b=>b.onclick=()=>runRoutine(S.routines[+b.dataset.i]));
+  show('s-routines');
+}
+
+let RT=null; // routine en cours
+function runRoutine(r){
+  if(!r.steps.length) return;
+  clearTimers();
+  RT={r, i:0, status:r.steps.map(()=>''), start:Date.now(), timer:null};
+  $('#ro-title').textContent=`${r.e} ${r.name}`;
+  show('s-routine');
+  routineStep();
+}
+function routineDots(){
+  $('#ro-steps').innerHTML=RT.r.steps.map((s,k)=>`<span class="${RT.status[k]==='ok'?'ok':RT.status[k]==='skip'?'skip':k===RT.i?'now':''}">${RT.status[k]==='ok'?'✅':s.e}</span>`).join('');
+}
+function routineStep(){
+  clearTimers(); RT.timer=null;
+  if(RT.i>=RT.r.steps.length) return routineEnd();
+  routineDots();
+  const s=RT.r.steps[RT.i], n=RT.r.steps.length;
+  $('#ro-stage').innerHTML=`<p class="sub">Étape ${RT.i+1} sur ${n}</p><div class="huge">${s.e}</div><div class="say">${esc(s.t)}</div>
+    ${s.m?`<div id="ro-timer"></div><button class="btn blanc petit" id="ro-tstart">▶️ Lancer le minuteur (${s.m} min)</button>`:''}
+    <button class="btn vert mt" id="ro-done" style="max-width:340px">C'est fait ! ✅</button>
+    <button class="btn blanc petit mt" id="ro-skip">⏭️ Plus tard</button>
+    <div class="feedback" id="rofb"></div>`;
+  speak(`Étape ${RT.i+1}. ${s.t}`);
+  if(s.m){
+    RT.timer=makeTimer($('#ro-timer'), s.m*60, {small:true, label:'minuteur',
+      onState:r=>{ $('#ro-tstart').textContent=r?'⏸️ Pause':'▶️ Reprendre'; },
+      onEnd:()=>{ speak('Temps terminé ! Tu as fini ?'); $('#ro-tstart').style.display='none'; }});
+    $('#ro-tstart').onclick=()=>RT.timer.toggle();
+  }
+  $('#ro-done').onclick=()=>{ RT.status[RT.i]='ok'; const f=$('#rofb'); f.textContent=pick(['⭐','👍','🎉','💪']); f.classList.add('show'); beep('ok'); RT.i++; later(routineStep,650); };
+  $('#ro-skip').onclick=()=>{ // on remet l'étape à la fin une seule fois
+    const k=RT.i;
+    if(!RT.status[k] && !RT.r.steps[k]._moved && RT.i<RT.r.steps.length-1){
+      const step={...RT.r.steps[k], _moved:true}; RT.r={...RT.r, steps:[...RT.r.steps.slice(0,k),...RT.r.steps.slice(k+1),step]};
+      RT.status=[...RT.status.slice(0,k),...RT.status.slice(k+1),''];
+      speak('D\'accord, on la fera à la fin.');
+    } else { RT.status[k]='skip'; RT.i++; }
+    later(routineStep,300);
+  };
+}
+function routineEnd(){
+  routineDots();
+  const done=RT.status.filter(x=>x==='ok').length, total=RT.r.steps.length, full=done===total;
+  const already=doneToday(RT.r.id);
+  S.routineLog.push({t:Date.now(), id:RT.r.id, name:RT.r.name, done, total, full, dur:Math.round((Date.now()-RT.start)/1000)});
+  if(S.routineLog.length>600) S.routineLog=S.routineLog.slice(-600);
+  let msg;
+  if(full && !already){ addStars(1); msg=`Routine terminée ! +1 ⭐ pour ton jardin !`; }
+  else if(full){ save(); msg=`Routine terminée ! (Tu as déjà gagné ton étoile aujourd'hui 😉)`; }
+  else { save(); msg=`Tu as fait ${done} étape${done>1?'s':''} sur ${total}. Bien joué, on continue demain !`; }
+  $('#ro-stage').innerHTML=`<div class="huge">${full?'🏆':'💪'}</div><div class="say">${full?'Bravo '+esc(S.name)+' !':'Bel effort !'}</div><p class="sub">${msg}</p>
+    <button class="btn vert mt" id="ro-fin" style="max-width:340px">${full&&!already?'🌻 Voir mon jardin':'🏠 Accueil'}</button>`;
+  beep('win'); if(full) confetti(25);
+  speak(full?`Bravo ${S.name} ! Routine terminée !`:'Bel effort !');
+  $('#ro-fin').onclick=()=> full&&!already ? showGarden() : goHome();
+}
+$('#ro-quit').onclick=()=>{ if(RT && RT.status.some(x=>x==='ok') && !confirm('Arrêter la routine ?')) return; goHome(); };
+$('#ro-voice').onclick=()=>{ if(lastSpoken) speak(lastSpoken,true); };
+
+/* =========================================================
+   V2 – COIN CALME
+   ========================================================= */
+let CALM=null;
+function weatherPicker(title, cb){
+  $('#ca-stage').innerHTML=`<div class="big">🫧</div><div class="say">${title}</div><p class="sub">Quelle est ta météo intérieure ?</p>
+    <div class="choices c5 weather">${WEATHER.map(w=>`<button class="choice" data-v="${w.v}"><span class="e">${w.e}</span><small>${w.t}</small></button>`).join('')}</div>`;
+  speak(title+' Quelle est ta météo intérieure ?');
+  $('#ca-stage').querySelectorAll('.choice').forEach(b=>b.onclick=()=>{ beep('soft'); cb(+b.dataset.v); });
+}
+function startCalm(){
+  clearTimers(); stopVoice();
+  CALM={start:Date.now(), before:null, after:null, ex:null};
+  show('s-calm');
+  weatherPicker('Comment tu te sens ?', v=>{ CALM.before=v; chooseExercise(); });
+}
+function chooseExercise(){
+  $('#ca-stage').innerHTML=`<div class="say">Choisis ton exercice</div><p class="sub">Assieds-toi confortablement 🧘</p>
+    <div class="choices">
+      <button class="choice" data-x="ballon"><span class="e">🎈</span>Le ballon<small>J'inspire, le ballon gonfle… je souffle, il dégonfle</small></button>
+      <button class="choice" data-x="bougie"><span class="e">🕯️</span>Souffle la bougie<small>Je sens la fleur… et je souffle tout doucement</small></button>
+      <button class="choice" data-x="tortue"><span class="e">🐢</span>La tortue<small>Je me serre fort comme une tortue… puis je me relâche</small></button>
+    </div>`;
+  speak('Choisis ton exercice.');
+  $('#ca-stage').querySelectorAll('.choice').forEach(b=>b.onclick=()=>{ CALM.ex=b.dataset.x; runBreath(b.dataset.x); });
+}
+function runBreath(kind){
+  clearTimers();
+  const conf={
+    ballon:{e:'🎈', cls:'', cycles:7, phases:[{t:'Inspire par le nez…',d:4000,s:1},{t:'Souffle doucement…',d:4500,s:.55}]},
+    bougie:{e:'🌸', e2:'🕯️', cls:'bougie', cycles:6, phases:[{t:'Sens la fleur…',d:4000,s:1},{t:'Souffle la bougie, tout doucement…',d:6000,s:.55}]},
+    tortue:{e:'🐢', cls:'', cycles:5, phases:[{t:'Serre fort tes poings et rentre dans ta carapace !',d:4500,s:.5},{t:'Relâche tout… tu es tout mou',d:6000,s:1}]}
+  }[kind];
+  $('#ca-stage').innerHTML=`<div class="breath ${conf.cls}" id="bb">${conf.e}</div><div class="say" id="bt" style="min-height:2.6em">Prépare-toi…</div>
+    <p class="sub" id="bc"></p><div class="bar mt" style="width:80%"><i id="bp" style="width:0"></i></div>
+    <button class="btn blanc petit mt" id="bstop">J'ai fini</button>`;
+  $('#bstop').onclick=()=>endBreath();
+  const bb=$('#bb'); let c=0, p=0;
+  const total=conf.cycles*conf.phases.length;
+  function step(){
+    if(c>=conf.cycles) return endBreath();
+    const ph=conf.phases[p];
+    bb.style.transitionDuration=ph.d+'ms'; bb.style.transform=`scale(${ph.s})`;
+    if(conf.e2) bb.textContent = p===0?conf.e:conf.e2;
+    $('#bt').textContent=ph.t; $('#bc').textContent=`${c+1} / ${conf.cycles}`;
+    $('#bp').style.width=((c*conf.phases.length+p+1)/total*100)+'%';
+    speak(ph.t); beep('soft');
+    p++; if(p>=conf.phases.length){p=0;c++;}
+    later(step, ph.d);
+  }
+  speak('Prépare-toi.');
+  later(step,1500);
+}
+function endBreath(){
+  clearTimers();
+  weatherPicker('Et maintenant, comment tu te sens ?', v=>{
+    CALM.after=v;
+    S.calmLog.push({t:Date.now(), ex:CALM.ex, before:CALM.before, after:v, dur:Math.round((Date.now()-CALM.start)/1000)});
+    if(S.calmLog.length>400) S.calmLog=S.calmLog.slice(-400);
+    save();
+    const better=v>CALM.before, w=WEATHER.find(x=>x.v===v);
+    $('#ca-stage').innerHTML=`<div class="huge">${w.e}</div><div class="say">${better?'Ta météo s\'est éclaircie !':'Merci d\'avoir pris ce moment pour toi.'}</div>
+      <p class="sub">${v<=2?'Tu peux recommencer, ou aller voir un adulte pour en parler. 💜':'Tu peux revenir ici chaque fois que tu en as besoin. 💜'}</p>
+      <div class="row mt" style="width:100%;max-width:360px"><button class="btn blanc" id="ca-again">🔁 Encore</button><button class="btn vert" id="ca-home">🏠 Accueil</button></div>`;
+    speak(better?'Ta météo s\'est éclaircie ! Bravo.':'Merci d\'avoir pris ce moment pour toi.');
+    $('#ca-again').onclick=()=>{ CALM.start=Date.now(); CALM.before=v; chooseExercise(); };
+    $('#ca-home').onclick=()=>goHome();
+  });
+}
+$('#ca-quit').onclick=()=>goHome();
+$('#ca-voice').onclick=()=>{ if(lastSpoken) speak(lastSpoken,true); };
+
 /* ---------- Jardin ---------- */
 function showGarden(){
+  clearTimers();
   $('#ga-stars').textContent=S.stars;
   const plants=Math.floor(S.stars/3), rest=S.stars%3;
   const shown=Math.min(plants,40);
@@ -669,11 +991,21 @@ function showGate(){ const a=6+rnd(4), b=6+rnd(4); gateAns=a*b; $('#gate-q').tex
 $('#gate-go').onclick=()=>{ if(+$('#gate-a').value===gateAns) showParent(); else $('#gate-err').textContent='Ce n\'est pas la bonne réponse.'; };
 
 function showParent(){
-  const wh=thisWeek(S.history), ws=thisWeek(S.sessions);
+  clearTimers();
+  const wh=thisWeek(S.history), ws=thisWeek(S.sessions), wr=thisWeek(S.routineLog), wc=thisWeek(S.calmLog);
   const mins=Math.round(wh.reduce((a,h)=>a+(h.dur||0),0)/60);
   const avg = wh.length ? Math.round(wh.reduce((a,h)=>a+h.acc,0)/wh.length) : null;
   $('#p-sess').textContent=`${ws.length}/3`; $('#p-min').textContent=mins; $('#p-acc').textContent = avg===null?'–':avg+'%';
+  $('#p-rcount').textContent=wr.filter(r=>r.full).length; $('#p-ccount').textContent=wc.length;
+  if(wc.length){ const better=wc.filter(c=>c.after>c.before).length; $('#p-mood').textContent=`${better}/${wc.length} ⬆️`; } else $('#p-mood').textContent='–';
   const day=Math.floor(Date.now()/86400000); $('#p-tip').textContent=TIPS[day%TIPS.length];
+
+  $('#p-routines').innerHTML = S.routines.map(r=>{
+    const x=wr.filter(l=>l.id===r.id), full=x.filter(l=>l.full).length;
+    const days=new Set(x.filter(l=>l.full).map(l=>dayStart(new Date(l.t)))).size;
+    const avgDone = x.length ? Math.round(x.reduce((a,l)=>a+l.done/l.total,0)/x.length*100) : null;
+    return `<div class="gline"><span class="e">${r.e}</span><div class="info"><b>${esc(r.name)}</b><br><small>${full} fois terminée · ${days} jour(s) sur 7${avgDone!==null?` · ${avgDone} % des étapes faites`:''}</small></div>${weekDots(x)}</div>`;
+  }).join('') || '<p class="muted">Aucune routine.</p>';
 
   $('#p-games').innerHTML = GAMES.map(g=>{
     const h=S.history.filter(x=>x.g===g.id).slice(-10);
@@ -685,25 +1017,37 @@ function showParent(){
   $('#p-name').value=S.name; $('#p-voice').checked=S.settings.voice; $('#p-sound').checked=S.settings.sound;
   show('s-parent');
 }
+function weekDots(logs){
+  const w=weekStart(); let h='<div style="display:flex;gap:3px">';
+  for(let d=0;d<7;d++){ const a=w+d*86400000, b=a+86400000; const ok=logs.some(l=>l.full&&l.t>=a&&l.t<b);
+    h+=`<i style="width:9px;height:22px;border-radius:5px;display:block;background:${ok?'#2ECC71':'#EEEAFE'}" title="${'LMMJVSD'[d]}"></i>`; }
+  return h+'</div>';
+}
 function spark(vals){
   if(vals.length<2) return '<svg width="80" height="34"></svg>';
   const w=80,h=34, pts=vals.map((v,i)=>`${(i/(vals.length-1)*(w-6)+3).toFixed(1)},${(h-3-(v/100)*(h-6)).toFixed(1)}`).join(' ');
   return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="#6C5CE7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
 function summary(){
-  const wh=thisWeek(S.history), ws=thisWeek(S.sessions);
+  const wh=thisWeek(S.history), ws=thisWeek(S.sessions), wr=thisWeek(S.routineLog), wc=thisWeek(S.calmLog);
   const d=new Date(weekStart()).toLocaleDateString('fr-FR',{day:'numeric',month:'long'});
-  let txt=`Bouge & Pense – Semaine du ${d}\nEnfant : ${S.name}\n\n`;
+  let txt=`Bouge & Pense – Semaine du ${d}\nEnfant : ${S.name}\n\nJEUX\n`;
   txt+=`• Séances complètes : ${ws.length} (objectif : 3)\n• Jeux joués : ${wh.length}\n• Temps d'activité : ${Math.round(wh.reduce((a,h)=>a+(h.dur||0),0)/60)} min\n`;
   if(wh.length){
-    txt+=`• Réussite moyenne : ${Math.round(wh.reduce((a,h)=>a+h.acc,0)/wh.length)} %\n\nPar compétence :\n`;
+    txt+=`• Réussite moyenne : ${Math.round(wh.reduce((a,h)=>a+h.acc,0)/wh.length)} %\n`;
     GAMES.forEach(g=>{ const x=wh.filter(h=>h.g===g.id); if(x.length) txt+=`  – ${g.skill} (${g.name}) : ${Math.round(x.reduce((a,h)=>a+h.acc,0)/x.length)} %, niveau ${S.levels[g.id]}/5\n`; });
-    const best=GAMES.map(g=>({g,x:wh.filter(h=>h.g===g.id)})).filter(o=>o.x.length).sort((a,b)=>b.x.reduce((s,h)=>s+h.acc,0)/b.x.length - a.x.reduce((s,h)=>s+h.acc,0)/a.x.length)[0];
-    if(best) txt+=`\nPoint fort de la semaine : ${best.g.skill.toLowerCase()} 💪`;
-  } else txt+=`\nPas encore de jeu cette semaine.`;
+  } else txt+=`• Pas encore de jeu cette semaine.\n`;
+  txt+=`\nROUTINES\n`;
+  S.routines.forEach(r=>{ const x=wr.filter(l=>l.id===r.id); const days=new Set(x.filter(l=>l.full).map(l=>dayStart(new Date(l.t)))).size;
+    txt+=`• ${r.name} : terminée ${days} jour(s) sur 7\n`; });
+  txt+=`\nCOIN CALME\n`;
+  if(wc.length){ const better=wc.filter(c=>c.after>c.before).length;
+    txt+=`• Utilisé ${wc.length} fois\n• Humeur améliorée après l'exercice : ${better} fois sur ${wc.length}\n`; }
+  else txt+=`• Pas utilisé cette semaine\n`;
   return txt;
 }
-$('#p-copy').onclick=async()=>{ const t=$('#p-summary'); if(window.AndroidApp){ AndroidApp.share('Résumé Bouge & Pense', t.value); return; } try{ await navigator.clipboard.writeText(t.value); }catch(e){ t.select(); document.execCommand('copy'); } $('#p-copy').textContent='✅ Copié !'; setTimeout(()=>$('#p-copy').textContent='📋 Copier / partager le résumé',1500); };
+$('#p-copy').onclick=async()=>{ const t=$('#p-summary'); if(window.AndroidApp){ AndroidApp.share('Résumé Bouge & Pense', t.value); return; }
+  try{ await navigator.clipboard.writeText(t.value); }catch(e){ t.select(); document.execCommand('copy'); } $('#p-copy').textContent='✅ Copié !'; setTimeout(()=>$('#p-copy').textContent='📋 Copier / partager le résumé',1500); };
 $('#p-name').onchange=e=>{ const v=e.target.value.trim(); if(v){ S.name=v; save(); } };
 $('#p-voice').onchange=e=>{ S.settings.voice=e.target.checked; save(); };
 $('#p-sound').onchange=e=>{ S.settings.sound=e.target.checked; save(); };
@@ -715,16 +1059,74 @@ $('#p-export').onclick=()=>{
 $('#p-import').onclick=()=>$('#p-file').click();
 $('#p-file').onchange=e=>{
   const f=e.target.files[0]; if(!f) return; const r=new FileReader();
-  r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d.levels) throw 0; S=Object.assign(defaultState(),d); save(); alert('Données restaurées ✅'); showParent(); }catch(err){ alert('Fichier non valide.'); } };
+  r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d.levels) throw 0; S=migrate(d); save(); alert('Données restaurées ✅'); showParent(); }catch(err){ alert('Fichier non valide.'); } };
   r.readAsText(f); e.target.value='';
 };
-$('#p-reset').onclick=()=>{ if(confirm('Effacer toutes les données (étoiles, progrès, prénom) ?')){ localStorage.removeItem(STORE); S=defaultState(); obAvatar=S.avatar; goHome(); } };
+$('#p-reset').onclick=()=>{ if(confirm('Effacer toutes les données (étoiles, progrès, routines, prénom) ?')){ localStorage.removeItem(STORE); S=defaultState(); obAvatar=S.avatar; goHome(); } };
+
+/* =========================================================
+   V2 – ÉDITEUR DE ROUTINES (parents)
+   ========================================================= */
+let edIdx=0;
+$('#p-redit').onclick=()=>{ edIdx=0; renderEditor(); show('s-redit'); };
+$('#re-back').onclick=()=>{ save(); showParent(); };
+function renderEditor(){
+  if(edIdx>=S.routines.length) edIdx=Math.max(0,S.routines.length-1);
+  $('#re-tabs').innerHTML=S.routines.map((r,i)=>`<button class="${i===edIdx?'sel':''}" data-i="${i}">${r.e} ${esc(r.name)}</button>`).join('');
+  $('#re-tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{ edIdx=+b.dataset.i; renderEditor(); });
+  const r=S.routines[edIdx];
+  if(!r){ $('#re-card').innerHTML='<p class="muted">Aucune routine. Créez-en une ci-dessous.</p>'; return; }
+  const opt=(list,sel)=>{ const l=list.includes(sel)?list:[sel,...list]; return l.map(e=>`<option ${e===sel?'selected':''}>${e}</option>`).join(''); };
+  $('#re-card').innerHTML=`
+    <div class="estep" style="grid-template-columns:62px 1fr;border:none">
+      <select id="re-remoji">${opt(ROUTINE_EMOJIS,r.e)}</select>
+      <input type="text" id="re-rname" maxlength="30" value="${esc(r.name)}" placeholder="Nom de la routine">
+    </div>
+    <h3 class="mt">Étapes <span class="muted" style="font-size:.8rem">(icône · texte · minutes, 0 = pas de minuteur)</span></h3>
+    <div id="re-steps">${r.steps.map((s,k)=>`
+      <div class="estep" data-k="${k}">
+        <select data-f="e">${opt(STEP_EMOJIS,s.e)}</select>
+        <input type="text" data-f="t" maxlength="50" value="${esc(s.t)}">
+        <input type="number" data-f="m" min="0" max="60" value="${s.m||0}" inputmode="numeric">
+        <div class="acts"><button data-a="up">⬆️</button><button data-a="down">⬇️</button><button data-a="del">🗑️</button></div>
+      </div>`).join('')}</div>
+    <button class="btn blanc petit mt" id="re-add">➕ Ajouter une étape</button>
+    ${r.steps.length>7?'<p class="tip mt">Plus de 7 étapes : pensez à couper en deux routines.</p>':''}
+    <button class="btn rose petit mt" id="re-del" style="width:100%">🗑️ Supprimer cette routine</button>`;
+  $('#re-remoji').onchange=e=>{ r.e=e.target.value; save(); renderEditor(); };
+  $('#re-rname').onchange=e=>{ r.name=e.target.value.trim()||'Ma routine'; save(); renderEditor(); };
+  $('#re-steps').querySelectorAll('.estep').forEach(row=>{
+    const k=+row.dataset.k;
+    row.querySelectorAll('[data-f]').forEach(inp=>inp.onchange=()=>{ const f=inp.dataset.f;
+      r.steps[k][f] = f==='m' ? Math.max(0,Math.min(60,parseInt(inp.value)||0)) : (f==='t' ? (inp.value.trim()||'Étape') : inp.value); save(); });
+    row.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{ const a=b.dataset.a;
+      if(a==='del'){ if(r.steps.length<=1) return alert('Une routine doit avoir au moins une étape.'); r.steps.splice(k,1); }
+      if(a==='up' && k>0) [r.steps[k-1],r.steps[k]]=[r.steps[k],r.steps[k-1]];
+      if(a==='down' && k<r.steps.length-1) [r.steps[k+1],r.steps[k]]=[r.steps[k],r.steps[k+1]];
+      save(); renderEditor(); });
+  });
+  $('#re-add').onclick=()=>{ r.steps.push({e:'✅',t:'Nouvelle étape',m:0}); save(); renderEditor(); };
+  $('#re-del').onclick=()=>{ if(confirm(`Supprimer « ${r.name} » ?`)){ S.routines.splice(edIdx,1); save(); renderEditor(); } };
+}
+$('#re-new').onclick=()=>{
+  const name=prompt('Nom de la routine ou de la grande tâche (ex. : Ranger ma chambre)'); if(!name||!name.trim()) return;
+  S.routines.push({id:'r'+Date.now(), name:name.trim().slice(0,30), e:'⭐', steps:[{e:'✅',t:'Première petite étape',m:0}]});
+  edIdx=S.routines.length-1; save(); renderEditor();
+};
+$('#re-defaults').onclick=()=>{ if(confirm('Remplacer toutes les routines par celles de départ ?')){ S.routines=DEFAULT_ROUTINES(); edIdx=0; save(); renderEditor(); } };
 
 /* ---------- Démarrage ---------- */
-// Garde l'écran allumé pendant les jeux (si supporté)
 let wake=null; async function keepAwake(){ try{ if('wakeLock' in navigator && !wake){ wake=await navigator.wakeLock.request('screen'); wake.addEventListener('release',()=>wake=null);} }catch(e){} }
-document.addEventListener('pointerdown',keepAwake,{once:false,passive:true});
-document.addEventListener('visibilitychange',()=>{ if(document.hidden){ if('speechSynthesis' in window) speechSynthesis.cancel(); } });
+document.addEventListener('pointerdown',keepAwake,{passive:true});
+document.addEventListener('visibilitychange',()=>{ if(document.hidden) stopVoice(); });
+// Bouton Retour Android
+window.androidBack=()=>{
+  const c=current_screen();
+  if(c==='s-home'||c==='s-onboard') return 'exit';
+  if(c==='s-redit'){ save(); showParent(); return 'stay'; }
+  if(c==='s-routine' && RT && RT.status.some(x=>x==='ok') && !confirm('Arrêter la routine ?')) return 'stay';
+  goHome(); return 'stay';
+};
 if('serviceWorker' in navigator && location.protocol.startsWith('http')) window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 goHome();
 </script>

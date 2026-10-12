@@ -6,8 +6,20 @@ android {
         applicationId "com.bougepense.app"
         minSdk 24
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
+    }
+    // Clé de signature fixe : les prochaines mises à jour s'installent sans désinstaller
+    signingConfigs {
+        fixe {
+            storeFile file('bougepense.keystore')
+            storePassword 'bougepense'
+            keyAlias 'bougepense'
+            keyPassword 'bougepense'
+        }
+    }
+    buildTypes {
+        debug { signingConfig signingConfigs.fixe }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
