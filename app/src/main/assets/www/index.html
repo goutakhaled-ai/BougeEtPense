@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Bouge & Pense</title>
+<meta name="theme-color" content="#6C5CE7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Bouge & Pense">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{
+  --violet:#6C5CE7; --violet-d:#5847d6; --rose:#FF7AA2; --jaune:#FFC93C; --vert:#2ECC71;
+  --bleu:#3BA7FF; --rouge:#FF5A5F; --orange:#FF9F43; --fond:#FFF8EE; --texte:#2D2A4A; --gris:#8B87A8;
+  --carte:#FFFFFF; --ombre:0 6px 0 rgba(45,42,74,.12), 0 10px 24px rgba(45,42,74,.08);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:"Nunito","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--fond);color:var(--texte);
+  overflow-x:hidden;user-select:none;-webkit-user-select:none;
+  background-image:radial-gradient(circle at 10% 10%,#FFE3EC 0 60px,transparent 61px),radial-gradient(circle at 92% 18%,#E3F4FF 0 80px,transparent 81px),radial-gradient(circle at 85% 92%,#E8FFE9 0 90px,transparent 91px),radial-gradient(circle at 5% 85%,#FFF1C9 0 70px,transparent 71px);
+  background-attachment:fixed}
+.app{max-width:560px;margin:0 auto;min-height:100%;padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 20px)}
+.screen{display:none;animation:pop .3s ease}
+.screen.active{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-size:1.7rem;font-weight:900}
+h2{font-size:1.35rem;font-weight:900;margin-bottom:10px}
+h3{font-size:1.05rem;font-weight:800;margin-bottom:6px}
+p{line-height:1.45}
+.muted{color:var(--gris)}
+.card{background:var(--carte);border-radius:22px;padding:16px;box-shadow:var(--ombre);margin-bottom:14px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:none;border-radius:20px;padding:16px;font-size:1.15rem;font-weight:900;
+  font-family:inherit;color:#fff;background:var(--violet);box-shadow:0 6px 0 var(--violet-d);cursor:pointer;transition:transform .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--violet-d)}
+.btn.vert{background:var(--vert);box-shadow:0 6px 0 #22a85c}
+.btn.rose{background:var(--rose);box-shadow:0 6px 0 #e05f88}
+.btn.jaune{background:var(--jaune);color:var(--texte);box-shadow:0 6px 0 #e0a91c}
+.btn.blanc{background:#fff;color:var(--texte);box-shadow:0 6px 0 #e3dff5}
+.btn.petit{padding:10px 14px;font-size:.95rem;border-radius:14px;width:auto}
+.row{display:flex;gap:10px;align-items:center}
+.between{justify-content:space-between}
+.mt{margin-top:12px}.mb{margin-bottom:12px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.pill{background:#fff;border-radius:999px;padding:8px 14px;font-weight:900;box-shadow:var(--ombre);display:inline-flex;gap:6px;align-items:center}
+.iconbtn{background:#fff;border:none;border-radius:16px;width:46px;height:46px;font-size:1.4rem;box-shadow:var(--ombre);cursor:pointer}
+.hello{display:flex;gap:12px;align-items:center}
+.avatar{width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#FFD6E5,#D9D2FF);display:flex;align-items:center;justify-content:center;font-size:2.2rem;box-shadow:var(--ombre)}
+.week{display:flex;gap:10px;justify-content:center;margin:10px 0 4px}
+.week .dot{width:54px;height:54px;border-radius:50%;background:#F1EEFF;display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:3px dashed #CFC8F7}
+.week .dot.ok{background:#E3FBEA;border:3px solid var(--vert)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.game-tile{border:none;border-radius:22px;padding:14px 10px;color:#fff;font-family:inherit;text-align:center;cursor:pointer;box-shadow:var(--ombre);min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.game-tile .e{font-size:2.4rem}
+.game-tile b{font-size:1rem;font-weight:900}
+.game-tile small{font-size:.78rem;opacity:.95;font-weight:700}
+.game-tile:active{transform:scale(.97)}
+.lvl{font-size:.75rem;background:rgba(255,255,255,.3);border-radius:999px;padding:2px 8px;font-weight:900}
+/* Jeu */
+.gamehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.progress{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin:6px 0 12px}
+.progress i{width:12px;height:12px;border-radius:50%;background:#E4E0F7;display:block}
+.progress i.ok{background:var(--vert)}.progress i.ko{background:var(--orange)}.progress i.now{background:var(--violet)}
+.stage{background:#fff;border-radius:28px;box-shadow:var(--ombre);min-height:52vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;text-align:center;position:relative;overflow:hidden}
+.big{font-size:5.5rem;line-height:1.1}
+.huge{font-size:7rem;line-height:1}
+.say{font-size:1.5rem;font-weight:900;margin:10px 0}
+.sub{font-size:1.05rem;font-weight:700;color:var(--gris)}
+.choices{display:grid;gap:12px;width:100%;margin-top:16px}
+.choices.c2{grid-template-columns:1fr 1fr}
+.choices.c3{grid-template-columns:1fr 1fr 1fr}
+.choice{border:none;border-radius:20px;padding:14px 6px;font-family:inherit;font-weight:900;font-size:1rem;background:#F4F2FF;color:var(--texte);box-shadow:0 5px 0 #DDD7FA;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+.choice .e{font-size:2.2rem}
+.choice:active{transform:translateY(3px);box-shadow:0 2px 0 #DDD7FA}
+.choice.flash{background:#D7F8E3}
+.signal{width:min(70vw,260px);height:min(70vw,260px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.6rem;transition:background .15s;cursor:pointer;box-shadow:inset 0 -10px 0 rgba(0,0,0,.12)}
+.signal .e{font-size:4rem}
+.countdown{font-size:3rem;font-weight:900;color:var(--violet)}
+.feedback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:5rem;pointer-events:none;opacity:0}
+.feedback.show{animation:fb .7s ease}
+@keyframes fb{0%{opacity:0;transform:scale(.5)}30%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:scale(1)}}
+.timerbar{position:absolute;left:0;bottom:0;height:8px;background:var(--violet);border-radius:0 8px 8px 0}
+.seq{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;min-height:56px;margin-top:8px}
+.seq span{font-size:2rem;background:#F4F2FF;border-radius:14px;padding:4px 8px}
+.rule{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin:10px 0}
+.rule div{border-radius:14px;padding:8px;color:#fff;font-weight:900;font-size:.95rem}
+.stroop{font-size:3.6rem;font-weight:900;letter-spacing:1px}
+.colorbtn{border:none;border-radius:20px;height:76px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.15);color:#fff;font-weight:900;font-family:inherit;font-size:1rem}
+.colorbtn:active{transform:translateY(3px)}
+/* Résultat */
+.stars{font-size:3.4rem;letter-spacing:6px;margin:8px 0}
+.stars .off{filter:grayscale(1);opacity:.25}
+.confetti{position:fixed;top:-20px;font-size:1.6rem;pointer-events:none;animation:fall linear forwards;z-index:50}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+/* Jardin */
+.garden{background:linear-gradient(#CDEBFF 0 45%,#BFF0B0 45% 100%);border-radius:24px;padding:16px;min-height:260px;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;align-content:end;box-shadow:var(--ombre);position:relative}
+.garden .sun{position:absolute;top:10px;right:14px;font-size:2.4rem}
+.garden span{font-size:2.1rem;text-align:center;animation:grow .5s ease}
+@keyframes grow{from{transform:scale(0)}to{transform:scale(1)}}
+.bar{height:16px;background:#EEEAFE;border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--vert),#7BE495);border-radius:999px}
+/* Parent */
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat div{background:#F7F5FF;border-radius:16px;padding:10px;text-align:center}
+.stat b{display:block;font-size:1.5rem;font-weight:900;color:var(--violet)}
+.stat small{font-weight:700;color:var(--gris);font-size:.78rem}
+.gline{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F0EEF8}
+.gline:last-child{border-bottom:none}
+.gline .e{font-size:1.8rem}
+.gline .info{flex:1}
+.gline small{color:var(--gris);font-weight:700}
+input[type=text],input[type=number],textarea{width:100%;font-family:inherit;font-size:1.1rem;padding:12px 14px;border-radius:14px;border:2px solid #E4E0F7;background:#fff;color:var(--texte);font-weight:700}
+textarea{font-size:.92rem;min-height:150px;font-weight:600}
+.avatars{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
+.avatars button{font-size:2rem;width:58px;height:58px;border-radius:50%;border:3px solid transparent;background:#F4F2FF;cursor:pointer}
+.avatars button.sel{border-color:var(--violet);background:#E9E4FF}
+.switch{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-weight:800}
+.switch input{width:24px;height:24px;accent-color:var(--violet)}
+.note{font-size:.82rem;color:var(--gris);text-align:center;margin-top:10px}
+.tip{background:#FFF6D8;border-radius:16px;padding:12px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ACCUEIL / INSCRIPTION -->
+<section class="screen" id="s-onboard">
+  <div class="card" style="text-align:center">
+    <div class="huge">🤸</div>
+    <h1 class="mt">Bouge & Pense</h1>
+    <p class="muted mb">Des jeux où l'on bouge avec son corps et sa tête !</p>
+    <h3>Comment tu t'appelles ?</h3>
+    <input type="text" id="ob-name" maxlength="16" placeholder="Ton prénom">
+    <h3 class="mt">Choisis ton personnage</h3>
+    <div class="avatars" id="ob-avatars"></div>
+    <button class="btn vert mt" id="ob-go">C'est parti ! 🚀</button>
+  </div>
+</section>
+
+<!-- MAISON -->
+<section class="screen" id="s-home">
+  <div class="top">
+    <div class="hello">
+      <div class="avatar" id="h-avatar">🦊</div>
+      <div><div class="muted" style="font-weight:800">Bonjour</div><h2 id="h-name" style="margin:0">Champion</h2></div>
+    </div>
+    <div class="row">
+      <span class="pill">⭐ <span id="h-stars">0</span></span>
+      <button class="iconbtn" id="h-parent" aria-label="Espace parents">👪</button>
+    </div>
+  </div>
+
+  <div class="card" style="text-align:center">
+    <h3>Mon objectif de la semaine : 3 séances</h3>
+    <div class="week" id="h-week"></div>
+    <p class="muted" id="h-weektxt" style="font-weight:700"></p>
+    <button class="btn mt" id="h-session">▶️ Séance du jour (3 jeux)</button>
+  </div>
+
+  <h3 style="margin:4px 4px 10px">Ou choisis un jeu</h3>
+  <div class="grid" id="h-games"></div>
+
+  <button class="btn jaune mt" id="h-garden" style="margin-top:16px">🌻 Mon jardin magique</button>
+</section>
+
+<!-- JEU -->
+<section class="screen" id="s-game">
+  <div class="gamehead">
+    <button class="iconbtn" id="g-quit" aria-label="Quitter">✖️</button>
+    <div class="pill" id="g-title">Jeu</div>
+    <button class="iconbtn" id="g-voice" aria-label="Répéter">🔊</button>
+  </div>
+  <div class="progress" id="g-progress"></div>
+  <div class="stage" id="g-stage"></div>
+</section>
+
+<!-- RÉSULTAT -->
+<section class="screen" id="s-result">
+  <div class="card" style="text-align:center">
+    <div class="huge" id="r-emoji">🎉</div>
+    <h2 class="mt" id="r-title">Bravo !</h2>
+    <div class="stars" id="r-stars"></div>
+    <p id="r-text" style="font-weight:700"></p>
+    <p class="muted mt" id="r-level" style="font-weight:700"></p>
+    <button class="btn vert mt" id="r-next">Continuer ➡️</button>
+  </div>
+</section>
+
+<!-- JARDIN -->
+<section class="screen" id="s-garden">
+  <div class="top">
+    <button class="iconbtn" data-home>🏠</button>
+    <h2 style="margin:0">Mon jardin magique</h2>
+    <span class="pill">⭐ <span id="ga-stars">0</span></span>
+  </div>
+  <div class="garden" id="ga-garden"><span class="sun">☀️</span></div>
+  <div class="card mt">
+    <h3 id="ga-next">Prochaine plante</h3>
+    <div class="bar"><i id="ga-bar" style="width:0"></i></div>
+    <p class="muted mt" style="font-weight:700">Chaque fois que tu joues, ton jardin grandit. Tous les 3 ⭐, une nouvelle plante pousse !</p>
+  </div>
+</section>
+
+<!-- PORTE PARENTS -->
+<section class="screen" id="s-gate">
+  <div class="top"><button class="iconbtn" data-home>🏠</button><h2 style="margin:0">Espace parents</h2><span></span></div>
+  <div class="card" style="text-align:center">
+    <div class="big">🔒</div>
+    <p class="mt" style="font-weight:800">Pour entrer, réponds à ce calcul :</p>
+    <div class="say" id="gate-q">7 × 8 = ?</div>
+    <input type="number" id="gate-a" inputmode="numeric" placeholder="Réponse">
+    <button class="btn mt" id="gate-go">Entrer</button>
+    <p class="muted mt" id="gate-err" style="font-weight:700"></p>
+  </div>
+</section>
+
+<!-- PARENTS -->
+<section class="screen" id="s-parent">
+  <div class="top"><button class="iconbtn" data-home>🏠</button><h2 style="margin:0">Espace parents</h2><span></span></div>
+
+  <div class="card">
+    <h3>Cette semaine</h3>
+    <div class="stat">
+      <div><b id="p-sess">0/3</b><small>séances</small></div>
+      <div><b id="p-min">0</b><small>minutes</small></div>
+      <div><b id="p-acc">–</b><small>réussite</small></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>💡 Conseil du jour</h3>
+    <div class="tip" id="p-tip"></div>
+  </div>
+
+  <div class="card">
+    <h3>Progrès par jeu</h3>
+    <div id="p-games"></div>
+  </div>
+
+  <div class="card">
+    <h3>Résumé de la semaine (à partager)</h3>
+    <textarea id="p-summary" readonly></textarea>
+    <button class="btn mt" id="p-copy">📋 Copier / partager le résumé</button>
+  </div>
+
+  <div class="card">
+    <h3>Réglages</h3>
+    <label class="muted" style="font-weight:800">Prénom de l'enfant</label>
+    <input type="text" id="p-name" maxlength="16" class="mb">
+    <div class="switch"><span>🔊 Voix qui lit les consignes</span><input type="checkbox" id="p-voice"></div>
+    <div class="switch"><span>🎵 Petits sons</span><input type="checkbox" id="p-sound"></div>
+    <div class="row mt">
+      <button class="btn blanc petit" id="p-export">⬇️ Sauvegarder</button>
+      <button class="btn blanc petit" id="p-import">⬆️ Restaurer</button>
+      <input type="file" id="p-file" accept=".json,application/json" hidden>
+    </div>
+    <button class="btn rose mt" id="p-reset">🗑️ Tout effacer</button>
+  </div>
+
+  <p class="note">Bouge & Pense est une application ludique de soutien à l'attention et aux routines. Elle ne remplace pas un diagnostic ni un suivi médical ou paramédical. Les données restent uniquement sur cet appareil.</p>
+</section>
+
+</div>
+
+<script>
+/* =========================================================
+   Bouge & Pense – V1
+   Jeux mêlant mouvement + réflexion, récompenses, espace parents
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const STORE = 'bougepense_v1';
+const AVATARS = ['🦊','🐼','🐯','🦁','🐸','🐵','🦄','🐻','🐰','🐨','🐧','🦖'];
+const PLANTS = ['🌷','🌻','🌼','🌹','🌸','🌵','🍄','🌳','🌺','🍓','🌴','🪻'];
+
+const GAMES = [
+  {id:'feu',    name:'Feu Rouge, Feu Vert', e:'🚦', color:'#FF5A5F', skill:'Contrôle de soi', desc:'Bouge… et STOP !'},
+  {id:'chef',   name:'Le Chef dit',         e:'👑', color:'#6C5CE7', skill:'Écoute et contrôle', desc:'Écoute bien le chef !'},
+  {id:'memo',   name:'Mémoire des gestes',  e:'🧠', color:'#3BA7FF', skill:'Mémoire de travail', desc:'Retiens la suite'},
+  {id:'chasse', name:'Chasse aux animaux',  e:'🐾', color:'#2ECC71', skill:'Attention', desc:'Seulement les animaux !'},
+  {id:'couleur',name:'Couleurs magiques',   e:'🎨', color:'#FF9F43', skill:'Flexibilité', desc:'Couleur = mouvement'}
+];
+
+const TIPS = [
+  "Donnez une seule consigne à la fois, en regardant votre enfant dans les yeux.",
+  "Félicitez l'effort tout de suite (« Tu t'es bien concentré ! »), pas seulement la réussite.",
+  "Une petite séance de 10 minutes vaut mieux qu'une longue séance qui finit dans la frustration.",
+  "Avant les devoirs, 5 minutes de mouvement peuvent aider à mieux se concentrer ensuite.",
+  "Découpez les grosses tâches en petites étapes visibles (une liste avec des cases à cocher).",
+  "Gardez des horaires réguliers pour le coucher : le sommeil influence beaucoup l'attention.",
+  "Jouez parfois avec votre enfant : faire « Le Chef dit » à deux est encore plus motivant.",
+  "Si votre enfant est fatigué ou énervé, mieux vaut reporter la séance : le plaisir doit rester.",
+  "Partagez le résumé de la semaine avec l'enseignant pour aligner les encouragements.",
+  "Limitez les distractions pendant les jeux : télé éteinte, pièce calme, espace pour bouger."
+];
+
+/* ---------- Données ---------- */
+function defaultState(){
+  return {name:'', avatar:'🦊', stars:0, levels:{feu:1,chef:1,memo:1,chasse:1,couleur:1},
+    history:[], sessions:[], settings:{voice:true, sound:true}, created:Date.now()};
+}
+let S = load();
+function load(){
+  try{ const d = JSON.parse(localStorage.getItem(STORE)); if(d && d.levels) return Object.assign(defaultState(), d); }catch(e){}
+  return defaultState();
+}
+function save(){ localStorage.setItem(STORE, JSON.stringify(S)); }
+
+function weekStart(d=new Date()){ const x=new Date(d); const day=(x.getDay()+6)%7; x.setHours(0,0,0,0); x.setDate(x.getDate()-day); return x.getTime(); }
+function thisWeek(arr){ const w=weekStart(); return arr.filter(h=>h.t>=w); }
+
+/* ---------- Voix et sons ---------- */
+let frVoice = null;
+function pickVoice(){ if(!('speechSynthesis' in window)) return; const v=speechSynthesis.getVoices(); frVoice = v.find(x=>/fr[-_]FR/i.test(x.lang)) || v.find(x=>/^fr/i.test(x.lang)) || null; }
+if('speechSynthesis' in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+let lastSpoken = '';
+function speak(txt, force){
+  lastSpoken = txt;
+  if(!S.settings.voice && !force) return;
+  const clean = txt.replace(/[^\p{L}\p{N}\s',!?:.-]/gu,'');
+  if(window.AndroidApp && AndroidApp.canSpeak()){ try{ AndroidApp.speak(clean); }catch(e){} return; }
+  if(!('speechSynthesis' in window)) return;
+  try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(txt.replace(/[^\p{L}\p{N}\s',!?:.-]/gu,'')); u.lang='fr-FR'; if(frVoice) u.voice=frVoice; u.rate=0.95; u.pitch=1.1; speechSynthesis.speak(u);}catch(e){}
+}
+let AC=null;
+function beep(type){
+  if(!S.settings.sound) return;
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    const notes = type==='ok' ? [660,880] : type==='ko' ? [300,220] : type==='win' ? [523,659,784,1046] : [520];
+    notes.forEach((f,i)=>{ const o=AC.createOscillator(), g=AC.createGain(); o.type='sine'; o.frequency.value=f;
+      const t=AC.currentTime+i*0.11; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.25,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.18);
+      o.connect(g).connect(AC.destination); o.start(t); o.stop(t+0.2); });
+  }catch(e){}
+}
+
+/* ---------- Navigation ---------- */
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $('#'+id).classList.add('active'); window.scrollTo(0,0); }
+document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>goHome());
+
+/* ---------- Minuteurs (nettoyés quand on quitte un jeu) ---------- */
+let timers=[];
+const later=(fn,ms)=>{ const id=setTimeout(fn,ms); timers.push(id); return id; };
+const every=(fn,ms)=>{ const id=setInterval(fn,ms); timers.push(id); return id; };
+function clearTimers(){ timers.forEach(id=>{clearTimeout(id);clearInterval(id);}); timers=[]; }
+const rnd=n=>Math.floor(Math.random()*n);
+const pick=a=>a[rnd(a.length)];
+const shuffle=a=>{a=[...a]; for(let i=a.length-1;i>0;i--){const j=rnd(i+1); [a[i],a[j]]=[a[j],a[i]];} return a;};
+
+/* ---------- Inscription ---------- */
+let obAvatar = S.avatar;
+function renderOnboard(){
+  $('#ob-name').value = S.name;
+  $('#ob-avatars').innerHTML = AVATARS.map(a=>`<button class="${a===obAvatar?'sel':''}" data-a="${a}">${a}</button>`).join('');
+  $('#ob-avatars').querySelectorAll('button').forEach(b=>b.onclick=()=>{obAvatar=b.dataset.a; renderOnboard();});
+}
+$('#ob-go').onclick=()=>{
+  const n=$('#ob-name').value.trim(); if(!n){ $('#ob-name').focus(); $('#ob-name').placeholder='Écris ton prénom ici 🙂'; return; }
+  S.name=n; S.avatar=obAvatar; save(); speak(`Bienvenue ${n} ! On va bouger et réfléchir ensemble.`); goHome();
+};
+
+/* ---------- Maison ---------- */
+function goHome(){
+  clearTimers(); session=null;
+  if(!S.name){ renderOnboard(); show('s-onboard'); return; }
+  $('#h-avatar').textContent=S.avatar; $('#h-name').textContent=S.name; $('#h-stars').textContent=S.stars;
+  const n=Math.min(3,thisWeek(S.sessions).length);
+  $('#h-week').innerHTML=[0,1,2].map(i=>`<div class="dot ${i<n?'ok':''}">${i<n?'🏅':''}</div>`).join('');
+  $('#h-weektxt').textContent = n>=3 ? 'Objectif atteint, tu es un champion ! 🎉' : `Encore ${3-n} séance${3-n>1?'s':''} cette semaine`;
+  $('#h-games').innerHTML = GAMES.map(g=>`<button class="game-tile" style="background:${g.color}" data-g="${g.id}">
+     <span class="e">${g.e}</span><b>${g.name}</b><small>${g.desc}</small><span class="lvl">Niveau ${S.levels[g.id]}</span></button>`).join('')
+     + `<button class="game-tile" style="background:linear-gradient(135deg,#FF7AA2,#6C5CE7)" id="h-random"><span class="e">🎲</span><b>Surprise !</b><small>Un jeu au hasard</small></button>`;
+  $('#h-games').querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>startSingle(b.dataset.g));
+  $('#h-random').onclick=()=>startSingle(pick(GAMES).id);
+  show('s-home');
+}
+$('#h-session').onclick=()=>startSession();
+$('#h-garden').onclick=()=>showGarden();
+$('#h-parent').onclick=()=>showGate();
+
+/* ---------- Séances ---------- */
+let session=null; // {queue:[], idx, start, results:[]}
+function startSession(){
+  // 3 jeux variés : on privilégie ceux joués le moins récemment
+  const lastPlayed = id => { const h=[...S.history].reverse().find(x=>x.g===id); return h?h.t:0; };
+  const order = shuffle(GAMES).sort((a,b)=>lastPlayed(a.id)-lastPlayed(b.id)).slice(0,3).map(g=>g.id);
+  session={queue:shuffle(order), idx:0, start:Date.now(), results:[]};
+  launch(session.queue[0]);
+}
+function startSingle(id){ session=null; launch(id); }
+
+/* ---------- Moteur de jeu ---------- */
+let current=null; // {id, start}
+function launch(id){
+  clearTimers();
+  const g=GAMES.find(x=>x.id===id);
+  current={id, start:Date.now()};
+  $('#g-title').textContent=`${g.e} ${g.name}`;
+  $('#g-progress').innerHTML='';
+  show('s-game');
+  RUN[id](S.levels[id], res=>finishGame(id,res));
+}
+function stopVoice(){ if(window.AndroidApp){ try{AndroidApp.stop();}catch(e){} } if('speechSynthesis' in window) speechSynthesis.cancel(); }
+$('#g-quit').onclick=()=>{ clearTimers(); stopVoice(); goHome(); };
+// Bouton Retour Android : revient à l'accueil, ou quitte depuis l'accueil
+window.androidBack=()=>{ if($('#s-home').classList.contains('active')||$('#s-onboard').classList.contains('active')) return 'exit'; clearTimers(); stopVoice(); goHome(); return 'stay'; };
+$('#g-voice').onclick=()=>{ if(lastSpoken) speak(lastSpoken,true); };
+
+function stage(html){ $('#g-stage').innerHTML = html + '<div class="feedback" id="fb"></div>'; }
+function setProgress(total, results, now){
+  $('#g-progress').innerHTML = Array.from({length:total},(_,i)=>`<i class="${i<results.length?(results[i]?'ok':'ko'):(i===now?'now':'')}"></i>`).join('');
+}
+function feedback(ok){
+  const f=$('#fb'); if(!f) return;
+  f.textContent = ok ? pick(['⭐','👍','🎉','💪','✨']) : pick(['🙂','💡','🔄']);
+  f.classList.remove('show'); void f.offsetWidth; f.classList.add('show');
+  beep(ok?'ok':'ko');
+}
+// Écran d'intro commun : règle + bouton "Je suis prêt"
+function intro(emoji, title, text, extraHtml, onStart){
+  stage(`<div class="big">${emoji}</div><div class="say">${title}</div><p class="sub">${text}</p>${extraHtml||''}
+    <button class="btn vert mt" id="go" style="max-width:320px">Je suis prêt ! ✅</button>`);
+  speak(`${title}. ${text}`);
+  $('#go').onclick=()=>countdown(onStart);
+}
+function countdown(cb){
+  let n=3; stage(`<div class="countdown" id="cd">3</div><p class="sub">Prépare-toi…</p>`); speak('3');
+  every(()=>{ n--; if(n>0){ $('#cd').textContent=n; speak(String(n)); beep('tick'); } else { clearTimers(); speak('Partez !'); cb(); } },900);
+}
+// Petit moment "fais le mouvement" avec compte à rebours
+function doMove(emoji, txt, secs, next){
+  let n=secs;
+  stage(`<div class="big">${emoji}</div><div class="say">${txt}</div><div class="countdown" id="mv">${n}</div><p class="sub">Fais-le pour de vrai !</p>`);
+  speak(txt);
+  const id=every(()=>{ n--; const el=$('#mv'); if(el) el.textContent=n; if(n<=0){ clearInterval(id); next(); } },1000);
+}
+
+/* ====== JEU 1 : Feu Rouge, Feu Vert (go / no-go) ====== */
+function gameFeu(level, done){
+  const total = 8;
+  const window_ = [2600,2200,1800,1500,1200][level-1];   // temps pour taper STOP
+  const decoy = level>=3;                                  // feu orange piège
+  let results=[], i=0, state='idle', falseTaps=0;
+  intro('🚦','Feu Rouge, Feu Vert',
+    'Quand c\'est VERT, marche sur place. Quand c\'est ROUGE, fais la statue et touche vite le rond !'+(decoy?' Attention : ORANGE, on ne touche pas !':''),
+    '', play);
+  function play(){
+    stage(`<div class="signal" id="sig"></div><p class="sub mt" id="hint"></p><div class="timerbar" id="tb" style="width:0"></div>`);
+    $('#sig').onpointerdown=tap;
+    next();
+  }
+  function next(){
+    if(i>=total){ return done({ok:results.filter(Boolean).length, total:results.length + Math.min(falseTaps,3)}); }
+    setProgress(total,results,i);
+    state='green'; paint('#2ECC71','🚶','Marche !'); $('#hint').textContent='Marche sur place…'; speak('Marche !');
+    later(()=>{
+      const isDecoy = decoy && Math.random()<0.3;
+      if(isDecoy){ state='orange'; paint('#FF9F43','🤔','Orange…'); $('#hint').textContent='Ne touche pas !';
+        later(()=>{ if(state==='orange'){ results.push(true); i++; feedback(true); later(next,700);} }, window_);
+      } else { state='red'; paint('#FF5A5F','✋','STOP !'); $('#hint').textContent='Statue ! Touche le rond !'; speak('Stop !'); bar(window_);
+        later(()=>{ if(state==='red'){ state='wait'; results.push(false); i++; feedback(false); later(next,700);} }, window_);
+      }
+    }, 1800 + rnd(2200));
+  }
+  function tap(){
+    if(state==='red'){ state='wait'; results.push(true); i++; feedback(true); later(next,700); }
+    else if(state==='orange'){ state='wait'; results.push(false); i++; feedback(false); later(next,700); }
+    else if(state==='green'){ falseTaps++; feedback(false); $('#hint').textContent='Pas encore ! On attend le rouge 🙂'; }
+  }
+  function paint(c,e,t){ const s=$('#sig'); s.style.background=c; s.innerHTML=`<span class="e">${e}</span>${t}`; $('#tb').style.transition='none'; $('#tb').style.width='0'; }
+  function bar(ms){ const b=$('#tb'); b.style.transition='none'; b.style.width='100%'; void b.offsetWidth; b.style.transition=`width ${ms}ms linear`; b.style.width='0'; }
+}
+
+/* ====== JEU 2 : Le Chef dit (écoute + inhibition) ====== */
+function gameChef(level, done){
+  const ACTIONS=[
+    {t:'saute 3 fois',e:'🦘'},{t:'touche tes pieds',e:'🦶'},{t:'lève les bras',e:'🙌'},{t:'tape 4 fois dans tes mains',e:'👏'},
+    {t:'tourne sur toi-même',e:'🔄'},{t:'fais l\'avion',e:'✈️'},{t:'marche comme un pingouin',e:'🐧'},{t:'touche ton nez',e:'👃'},
+    {t:'fais le flamant rose sur un pied',e:'🦩'},{t:'fais 3 grands pas',e:'👣'}];
+  const total=8, limit=[0,0,6000,4500,3500][level-1];
+  let results=[], i=0, list=shuffle(ACTIONS);
+  intro('👑','Le Chef dit','Fais le mouvement SEULEMENT si la phrase commence par « Le chef dit ». Sinon, ne bouge pas !'+(level>=3?' Attention aux imposteurs, comme le chat !':''),'',next);
+  function next(){
+    if(i>=total) return done({ok:results.filter(Boolean).length,total});
+    setProgress(total,results,i);
+    const a=list[i%list.length];
+    const r=Math.random();
+    let kind = r<0.55 ? 'chef' : (level>=3 && r<0.78 ? 'fake' : 'none');
+    const fakes=['Le chat dit','Le chien dit','Le cheval dit'];
+    const prefix = kind==='chef' ? 'Le chef dit : ' : kind==='fake' ? pick(fakes)+' : ' : '';
+    const phrase = prefix + a.t;
+    stage(`<div class="big">${kind==='chef'?'👑':kind==='fake'?'🐱':'🗣️'}</div><div class="say">« ${phrase.charAt(0).toUpperCase()+phrase.slice(1)} »</div>
+      <div class="choices c2"><button class="choice" id="yes"><span class="e">✅</span>Je le fais</button><button class="choice" id="no"><span class="e">✋</span>Je ne bouge pas</button></div>
+      ${limit?'<div class="timerbar" id="tb" style="width:100%"></div>':''}`);
+    if(kind==='fake') $('#g-stage .big').textContent = pick(['🐱','🐶','🐴']);
+    speak(phrase);
+    let answered=false;
+    if(limit){ const b=$('#tb'); void b.offsetWidth; b.style.transition=`width ${limit}ms linear`; b.style.width='0';
+      later(()=>{ if(!answered){ answered=true; results.push(false); i++; feedback(false); later(next,800);} }, limit+1500); }
+    const answer=(doIt)=>{ if(answered) return; answered=true; const ok = doIt === (kind==='chef'); results.push(ok); i++; feedback(ok);
+      later(()=>{ if(ok && doIt) doMove(a.e, a.t.charAt(0).toUpperCase()+a.t.slice(1)+' !', 4, next);
+        else if(ok){ stage(`<div class="big">🗿</div><div class="say">Bravo, tu n'as pas bougé !</div>`); speak('Bravo, tu n\'as pas bougé !'); later(next,1500); }
+        else { stage(`<div class="big">💡</div><div class="say">${kind==='chef'?'Le chef l\'avait dit !':'Le chef ne l\'avait pas dit !'}</div>`); speak(kind==='chef'?'Le chef l\'avait dit !':'Le chef ne l\'avait pas dit !'); later(next,1700); }
+      },500);
+    };
+    $('#yes').onclick=()=>answer(true); $('#no').onclick=()=>answer(false);
+  }
+}
+
+/* ====== JEU 3 : Mémoire des gestes (mémoire de travail) ====== */
+function gameMemo(level, done){
+  const MOVES=[{e:'👏',t:'Taper des mains'},{e:'🦘',t:'Sauter'},{e:'🙌',t:'Bras en l\'air'},{e:'🦶',t:'Taper du pied'},{e:'🔄',t:'Tourner'},{e:'🐸',t:'S\'accroupir'}];
+  const pool = MOVES.slice(0, Math.min(6, 3+level));
+  const total=5; let len = 1+level, results=[], i=0;
+  const speed=[1700,1500,1350,1200,1100][level-1];
+  intro('🧠','Mémoire des gestes','Regarde la suite de mouvements et fais-les en même temps. Ensuite, touche-les dans le bon ordre !','',round);
+  function round(){
+    if(i>=total) return done({ok:results.filter(Boolean).length,total});
+    setProgress(total,results,i);
+    const seq = Array.from({length:len},()=>pick(pool));
+    let k=0;
+    stage(`<p class="sub">Regarde et fais le mouvement !</p><div class="huge" id="mm">👀</div><div class="say" id="mt">&nbsp;</div><p class="sub" id="mc">${len} mouvements</p>`);
+    later(function show_(){
+      if(k<seq.length){ $('#mm').textContent=seq[k].e; $('#mt').textContent=seq[k].t; $('#mc').textContent=`${k+1} / ${seq.length}`; speak(seq[k].t); beep('tick'); k++;
+        later(()=>{ $('#mm').textContent='·'; $('#mt').innerHTML='&nbsp;'; later(show_,250); }, speed);
+      } else answerPhase(seq);
+    },900);
+  }
+  function answerPhase(seq){
+    let got=[];
+    stage(`<div class="say">À toi ! Dans quel ordre ?</div><div class="seq" id="sq"></div>
+      <div class="choices c3">${pool.map((m,j)=>`<button class="choice" data-j="${j}"><span class="e">${m.e}</span>${m.t}</button>`).join('')}</div>
+      <button class="btn blanc petit mt" id="undo">↩️ Effacer</button>`);
+    speak('À toi ! Touche les mouvements dans le bon ordre.');
+    const draw=()=>{$('#sq').innerHTML=got.map(m=>`<span>${m.e}</span>`).join('') + Array.from({length:seq.length-got.length},()=>'<span style="opacity:.3">❔</span>').join('');};
+    draw();
+    $('#undo').onclick=()=>{got.pop();draw();};
+    document.querySelectorAll('#g-stage .choice').forEach(b=>b.onclick=()=>{
+      if(got.length>=seq.length) return;
+      got.push(pool[+b.dataset.j]); draw(); b.classList.add('flash'); later(()=>b.classList.remove('flash'),200);
+      if(got.length===seq.length){
+        const ok = got.every((m,x)=>m.e===seq[x].e);
+        results.push(ok); i++; feedback(ok);
+        if(ok) len=Math.min(len+1,8); else len=Math.max(2,len-1);
+        later(()=>{
+          if(!ok){ stage(`<div class="say">La bonne suite était :</div><div class="seq">${seq.map(m=>`<span>${m.e}</span>`).join('')}</div><p class="sub mt">Pas grave, on continue ! 💪</p>`); later(round,2600); }
+          else round();
+        },700);
+      }
+    });
+  }
+}
+
+/* ====== JEU 4 : Chasse aux animaux (attention sélective) ====== */
+function gameChasse(level, done){
+  const ANIMALS=['🐶','🐱','🐰','🐸','🐵','🐘','🦁','🐷','🐮','🐔','🦒','🐢','🐟','🦋'];
+  const OTHERS=['🍎','🚗','⚽','🎈','🍌','🏠','✏️','🧸','🍕','⏰','🎸','🌂','🧦','🍩'];
+  const total=[12,14,16,18,20][level-1], show_=[2200,1800,1500,1250,1000][level-1];
+  let results=[], i=0;
+  intro('🐾','Chasse aux animaux','Touche l\'écran SEULEMENT quand tu vois un animal, puis fais un petit saut ! Ne touche pas les objets.','',next);
+  function next(){
+    if(i>=total) return done({ok:results.filter(Boolean).length,total});
+    setProgress(total,results,i);
+    const isAnimal=Math.random()<0.55, item=isAnimal?pick(ANIMALS):pick(OTHERS);
+    let answered=false;
+    stage(`<div id="zone" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer">
+      <div class="huge" style="font-size:8rem">${item}</div><p class="sub mt">Touche si c'est un animal !</p></div><div class="timerbar" id="tb" style="width:100%"></div>`);
+    const b=$('#tb'); void b.offsetWidth; b.style.transition=`width ${show_}ms linear`; b.style.width='0';
+    $('#zone').onpointerdown=()=>{ if(answered) return; answered=true; const ok=isAnimal; results.push(ok); i++; feedback(ok);
+      if(ok){ $('#zone').innerHTML='<div class="huge">🦘</div><div class="say">Saute !</div>'; later(next,1100); } else later(next,700); };
+    later(()=>{ if(answered) return; answered=true; const ok=!isAnimal; results.push(ok); i++; if(!ok) feedback(false); later(next, ok?250:700); }, show_);
+  }
+}
+
+/* ====== JEU 5 : Couleurs magiques (flexibilité / Stroop) ====== */
+function gameCouleur(level, done){
+  const COLS=[{n:'ROUGE',c:'#FF5A5F',m:'Saute',e:'🦘'},{n:'BLEU',c:'#3BA7FF',m:'Lève les bras',e:'🙌'},{n:'VERT',c:'#2ECC71',m:'Accroupis-toi',e:'🐸'},{n:'JAUNE',c:'#F5B800',m:'Tape dans tes mains',e:'👏'}];
+  const cols = COLS.slice(0, level===1?3:4);
+  const stroop = level>=3, total=8, limit=[0,0,0,5000,3500][level-1];
+  let results=[], i=0;
+  const ruleHtml = `<div class="rule">${cols.map(c=>`<div style="background:${c.c}">${c.e} ${c.n} = ${c.m}</div>`).join('')}</div>`;
+  intro('🎨','Couleurs magiques', stroop ? 'Touche la couleur de l\'ENCRE, pas le mot écrit ! Puis fais le mouvement de cette couleur.' : 'Touche la bonne couleur, puis fais le mouvement magique de cette couleur !', ruleHtml, next);
+  function next(){
+    if(i>=total) return done({ok:results.filter(Boolean).length,total});
+    setProgress(total,results,i);
+    const ink=pick(cols); let word=ink;
+    if(stroop){ while(word===ink) word=pick(cols); }
+    const centre = stroop ? `<div class="stroop" style="color:${ink.c}">${word.n}</div><p class="sub">Quelle est la couleur de l'encre ?</p>`
+                          : `<div style="width:150px;height:150px;border-radius:50%;background:${ink.c};box-shadow:inset 0 -10px 0 rgba(0,0,0,.12)"></div><p class="sub mt">Quelle couleur ?</p>`;
+    stage(`${centre}<div class="choices c2">${shuffle(cols).map(c=>`<button class="colorbtn" style="background:${c.c}" data-n="${c.n}">${c.n}</button>`).join('')}</div>
+      ${limit?'<div class="timerbar" id="tb" style="width:100%"></div>':''}`);
+    let answered=false;
+    if(limit){ const b=$('#tb'); void b.offsetWidth; b.style.transition=`width ${limit}ms linear`; b.style.width='0';
+      later(()=>{ if(!answered){ answered=true; results.push(false); i++; feedback(false); later(next,800);} }, limit); }
+    document.querySelectorAll('#g-stage .colorbtn').forEach(btn=>btn.onclick=()=>{
+      if(answered) return; answered=true; const ok=btn.dataset.n===ink.n; results.push(ok); i++; feedback(ok);
+      later(()=>{ if(ok) doMove(ink.e, ink.m+' !', 3, next);
+        else { stage(`<div class="say">C'était <span style="color:${ink.c}">${ink.n}</span> !</div><p class="sub">${stroop?'Regarde bien la couleur de l\'encre 😉':'On continue !'}</p>`); later(next,1600); } },500);
+    });
+  }
+}
+
+const RUN={feu:gameFeu, chef:gameChef, memo:gameMemo, chasse:gameChasse, couleur:gameCouleur};
+
+/* ---------- Fin de jeu : étoiles + niveau adaptatif ---------- */
+function finishGame(id,res){
+  clearTimers();
+  const acc = res.total ? res.ok/res.total : 0;
+  const stars = acc>=0.9?3 : acc>=0.65?2 : 1;           // toujours au moins 1 étoile : on récompense l'effort
+  const oldLvl=S.levels[id]; let lvl=oldLvl;
+  if(acc>=0.8) lvl=Math.min(5,lvl+1); else if(acc<0.5) lvl=Math.max(1,lvl-1);
+  S.levels[id]=lvl; S.stars+=stars;
+  const dur=Math.round((Date.now()-current.start)/1000);
+  S.history.push({t:Date.now(), g:id, acc:Math.round(acc*100), lvl:oldLvl, stars, dur});
+  if(S.history.length>500) S.history=S.history.slice(-500);
+  if(session) session.results.push({id,stars});
+  save();
+
+  $('#r-emoji').textContent = stars===3?'🏆':stars===2?'🎉':'💪';
+  $('#r-title').textContent = stars===3?`Incroyable, ${S.name} !`:stars===2?`Bravo, ${S.name} !`:`Bel effort, ${S.name} !`;
+  $('#r-stars').innerHTML = [1,2,3].map(n=>`<span class="${n<=stars?'':'off'}">⭐</span>`).join('');
+  $('#r-text').textContent = `${res.ok} bonne${res.ok>1?'s':''} réponse${res.ok>1?'s':''} sur ${res.total}. +${stars} étoile${stars>1?'s':''} pour ton jardin !`;
+  $('#r-level').textContent = lvl>oldLvl?`🚀 Tu passes au niveau ${lvl} !` : lvl<oldLvl?`On revient au niveau ${lvl} pour bien t'entraîner.` : `Niveau ${lvl}`;
+  const lastOfSession = session && session.idx>=session.queue.length-1;
+  $('#r-next').textContent = session && !lastOfSession ? `Jeu suivant (${session.idx+2}/3) ➡️` : 'Continuer ➡️';
+  show('s-result'); beep('win'); confetti(stars*8);
+  speak(`${$('#r-title').textContent} Tu gagnes ${stars} étoile${stars>1?'s':''}.`);
+}
+$('#r-next').onclick=()=>{
+  if(session){
+    session.idx++;
+    if(session.idx<session.queue.length) return launch(session.queue[session.idx]);
+    S.sessions.push({t:Date.now(), dur:Math.round((Date.now()-session.start)/1000), stars:session.results.reduce((a,b)=>a+b.stars,0)});
+    save(); session=null;
+    const n=thisWeek(S.sessions).length;
+    speak(n===3?'Objectif de la semaine atteint ! Bravo !':'Séance terminée ! Va voir ton jardin.');
+    confetti(30);
+    return showGarden();
+  }
+  goHome();
+};
+function confetti(n){
+  const items=['⭐','🎉','✨','🌟','🎈','🌸'];
+  for(let k=0;k<n;k++){ const s=document.createElement('span'); s.className='confetti'; s.textContent=pick(items);
+    s.style.left=rnd(100)+'vw'; s.style.animationDuration=(1.8+Math.random()*1.8)+'s'; s.style.animationDelay=(Math.random()*.6)+'s';
+    document.body.appendChild(s); setTimeout(()=>s.remove(),4500); }
+}
+
+/* ---------- Jardin ---------- */
+function showGarden(){
+  $('#ga-stars').textContent=S.stars;
+  const plants=Math.floor(S.stars/3), rest=S.stars%3;
+  const shown=Math.min(plants,40);
+  let html='<span class="sun">☀️</span>';
+  for(let k=0;k<shown;k++) html+=`<span>${PLANTS[k%PLANTS.length]}</span>`;
+  if(rest>0) html+=`<span>${rest===1?'🌱':'🌿'}</span>`;
+  if(!plants && !rest) html+=`<span style="grid-column:1/-1;font-size:1rem;font-weight:800">Ton jardin attend ses premières graines… Joue pour le faire pousser ! 🌱</span>`;
+  $('#ga-garden').innerHTML=html;
+  $('#ga-next').textContent = `Prochaine plante : encore ${3-rest} ⭐`;
+  $('#ga-bar').style.width = (rest/3*100)+'%';
+  show('s-garden');
+}
+
+/* ---------- Espace parents ---------- */
+let gateAns=0;
+function showGate(){ const a=6+rnd(4), b=6+rnd(4); gateAns=a*b; $('#gate-q').textContent=`${a} × ${b} = ?`; $('#gate-a').value=''; $('#gate-err').textContent=''; show('s-gate'); }
+$('#gate-go').onclick=()=>{ if(+$('#gate-a').value===gateAns) showParent(); else $('#gate-err').textContent='Ce n\'est pas la bonne réponse.'; };
+
+function showParent(){
+  const wh=thisWeek(S.history), ws=thisWeek(S.sessions);
+  const mins=Math.round(wh.reduce((a,h)=>a+(h.dur||0),0)/60);
+  const avg = wh.length ? Math.round(wh.reduce((a,h)=>a+h.acc,0)/wh.length) : null;
+  $('#p-sess').textContent=`${ws.length}/3`; $('#p-min').textContent=mins; $('#p-acc').textContent = avg===null?'–':avg+'%';
+  const day=Math.floor(Date.now()/86400000); $('#p-tip').textContent=TIPS[day%TIPS.length];
+
+  $('#p-games').innerHTML = GAMES.map(g=>{
+    const h=S.history.filter(x=>x.g===g.id).slice(-10);
+    const last=h.length?h[h.length-1].acc+'%':'pas encore joué';
+    return `<div class="gline"><span class="e">${g.e}</span><div class="info"><b>${g.name}</b><br><small>${g.skill} · niveau ${S.levels[g.id]}/5 · dernier : ${last} · ${S.history.filter(x=>x.g===g.id).length} partie(s)</small></div>${spark(h.map(x=>x.acc))}</div>`;
+  }).join('');
+
+  $('#p-summary').value = summary();
+  $('#p-name').value=S.name; $('#p-voice').checked=S.settings.voice; $('#p-sound').checked=S.settings.sound;
+  show('s-parent');
+}
+function spark(vals){
+  if(vals.length<2) return '<svg width="80" height="34"></svg>';
+  const w=80,h=34, pts=vals.map((v,i)=>`${(i/(vals.length-1)*(w-6)+3).toFixed(1)},${(h-3-(v/100)*(h-6)).toFixed(1)}`).join(' ');
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="#6C5CE7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+function summary(){
+  const wh=thisWeek(S.history), ws=thisWeek(S.sessions);
+  const d=new Date(weekStart()).toLocaleDateString('fr-FR',{day:'numeric',month:'long'});
+  let txt=`Bouge & Pense – Semaine du ${d}\nEnfant : ${S.name}\n\n`;
+  txt+=`• Séances complètes : ${ws.length} (objectif : 3)\n• Jeux joués : ${wh.length}\n• Temps d'activité : ${Math.round(wh.reduce((a,h)=>a+(h.dur||0),0)/60)} min\n`;
+  if(wh.length){
+    txt+=`• Réussite moyenne : ${Math.round(wh.reduce((a,h)=>a+h.acc,0)/wh.length)} %\n\nPar compétence :\n`;
+    GAMES.forEach(g=>{ const x=wh.filter(h=>h.g===g.id); if(x.length) txt+=`  – ${g.skill} (${g.name}) : ${Math.round(x.reduce((a,h)=>a+h.acc,0)/x.length)} %, niveau ${S.levels[g.id]}/5\n`; });
+    const best=GAMES.map(g=>({g,x:wh.filter(h=>h.g===g.id)})).filter(o=>o.x.length).sort((a,b)=>b.x.reduce((s,h)=>s+h.acc,0)/b.x.length - a.x.reduce((s,h)=>s+h.acc,0)/a.x.length)[0];
+    if(best) txt+=`\nPoint fort de la semaine : ${best.g.skill.toLowerCase()} 💪`;
+  } else txt+=`\nPas encore de jeu cette semaine.`;
+  return txt;
+}
+$('#p-copy').onclick=async()=>{ const t=$('#p-summary'); if(window.AndroidApp){ AndroidApp.share('Résumé Bouge & Pense', t.value); return; } try{ await navigator.clipboard.writeText(t.value); }catch(e){ t.select(); document.execCommand('copy'); } $('#p-copy').textContent='✅ Copié !'; setTimeout(()=>$('#p-copy').textContent='📋 Copier / partager le résumé',1500); };
+$('#p-name').onchange=e=>{ const v=e.target.value.trim(); if(v){ S.name=v; save(); } };
+$('#p-voice').onchange=e=>{ S.settings.voice=e.target.checked; save(); };
+$('#p-sound').onchange=e=>{ S.settings.sound=e.target.checked; save(); };
+$('#p-export').onclick=()=>{
+  if(window.AndroidApp){ AndroidApp.share('Sauvegarde Bouge & Pense', JSON.stringify(S)); return; }
+  const blob=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`bouge-pense-${new Date().toISOString().slice(0,10)}.json`; a.click();
+};
+$('#p-import').onclick=()=>$('#p-file').click();
+$('#p-file').onchange=e=>{
+  const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d.levels) throw 0; S=Object.assign(defaultState(),d); save(); alert('Données restaurées ✅'); showParent(); }catch(err){ alert('Fichier non valide.'); } };
+  r.readAsText(f); e.target.value='';
+};
+$('#p-reset').onclick=()=>{ if(confirm('Effacer toutes les données (étoiles, progrès, prénom) ?')){ localStorage.removeItem(STORE); S=defaultState(); obAvatar=S.avatar; goHome(); } };
+
+/* ---------- Démarrage ---------- */
+// Garde l'écran allumé pendant les jeux (si supporté)
+let wake=null; async function keepAwake(){ try{ if('wakeLock' in navigator && !wake){ wake=await navigator.wakeLock.request('screen'); wake.addEventListener('release',()=>wake=null);} }catch(e){} }
+document.addEventListener('pointerdown',keepAwake,{once:false,passive:true});
+document.addEventListener('visibilitychange',()=>{ if(document.hidden){ if('speechSynthesis' in window) speechSynthesis.cancel(); } });
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+goHome();
+</script>
+</body>
+</html>
